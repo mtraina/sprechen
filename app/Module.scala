@@ -1,7 +1,9 @@
 import com.google.inject.AbstractModule
 import java.time.Clock
 
+import controllers.SpeechController
 import services._
+import ws.{SpeechWSClientImpl, SpeechWSClient}
 
 /**
  * This class is a Guice module that tells Guice how to bind several
@@ -24,6 +26,7 @@ class Module extends AbstractModule {
     // Set AtomicCounter as the implementation for Counter.
     bind(classOf[Counter]).to(classOf[AtomicCounter])
 
+    bind(classOf[SpeechWSClient]).to(classOf[SpeechWSClientImpl])
     bind(classOf[SpeechService]).to(classOf[SpeechServiceImpl])
   }
 
