@@ -3,6 +3,7 @@ package services
 import java.io.File
 import javax.inject.Inject
 
+import play.api.Logger
 import ws.SpeechWSClient
 
 import scala.concurrent.ExecutionContext
@@ -19,8 +20,9 @@ class SpeechServiceImpl @Inject()(val client: SpeechWSClient,
     val response = client.post(new File("data/myRecording01.wav"))
     response.map {
       r => {
+        Logger.debug(s"json response=${r.json}")
         val transcripts = r.json \\ "transcript"
-        print(transcripts.head)
+        Logger.debug(s"best transcript=${transcripts.head}")
       }
     }
     "text"
