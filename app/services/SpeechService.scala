@@ -18,7 +18,10 @@ class SpeechServiceImpl @Inject()(val client: SpeechWSClient,
 
     val response = client.post(new File("data/myRecording01.wav"))
     response.map {
-      r => print(r.json)
+      r => {
+        val transcripts = r.json \\ "transcript"
+        print(transcripts.head)
+      }
     }
     "text"
   }
