@@ -17,7 +17,7 @@ class SpeechServiceImpl @Inject()(val client: SpeechWSClient,
   override def speechToText(): String = {
 
     val response = client.post(new File("data/myRecording01.wav"))
-    response.map {
+    response.getResponse().map {
       r => print(r.json)
     }
     "text"
