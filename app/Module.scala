@@ -1,5 +1,3 @@
-import java.time.Clock
-
 import com.google.inject.AbstractModule
 import services._
 import ws.{SpeechWSClient, SpeechWSClientImpl}
