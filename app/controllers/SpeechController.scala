@@ -8,7 +8,12 @@ import services.SpeechService
 @Singleton
 class SpeechController @Inject()(speechService: SpeechService) extends Controller {
 
-  def recognize = Action {
+  def recognize = Action(parse.temporaryFile) { request =>
+    val body = request.body
+
+
+
     Ok(speechService.speechToText())
   }
+
 }
