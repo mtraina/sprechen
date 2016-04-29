@@ -2,35 +2,24 @@ package services
 
 import java.io.File
 
-import org.scalamock.scalatest.MockFactory
+import org.mockito.BDDMockito._
+import org.scalatest.mock.MockitoSugar
 import org.scalatest.{FlatSpec, Matchers}
-import play.api.libs.json.Json
 import play.api.libs.ws.WSResponse
 import ws.SpeechWSClient
 
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.Future
 
-class SpeechServiceImplSpec extends FlatSpec with Matchers with MockFactory {
-  val client = mock[SpeechWSClient]
-  implicit val context: ExecutionContext = stub[ExecutionContext]
-
-  val json = Json.obj(
-    "results" -> Json.arr(
-      Json.obj(
-        "transcript" -> "number "
-      )
-    )
-  )
+class SpeechServiceImplSpec extends FlatSpec with Matchers with MockitoSugar {
+  val f = new File("")
   val r = mock[WSResponse]
-  (r.body _).expects().returning(json.toString)
-  (r.json _).expects().returning(json)
-  val f = Future.successful(r)
-  (client.post(_: File)).expects(*).returning(f)
-
-  val speechService = new SpeechServiceImpl(client, context)
+  val response = Future.successful(r)
+  val client = mock[SpeechWSClient]
+  given(client.post(f)) willReturn response
+  val speechService = new SpeechServiceImpl(client)
 
   "A speech service" should "return the text related to the speech" in {
-    speechService.speechToText shouldBe "text"
+    speechService.speechToText(f) shouldBe response
   }
 
 }
