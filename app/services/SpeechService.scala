@@ -3,28 +3,17 @@ package services
 import java.io.File
 import javax.inject.Inject
 
-import play.api.Logger
+import play.api.libs.ws.WSResponse
 import ws.SpeechWSClient
 
-import scala.concurrent.ExecutionContext
+import scala.concurrent.Future
 
 trait SpeechService {
-  def speechToText(speech: File): String
+  def speechToText(speech: File): Future[WSResponse]
 }
 
-class SpeechServiceImpl @Inject()(val client: SpeechWSClient,
-                                  implicit val context: ExecutionContext) extends SpeechService {
+class SpeechServiceImpl @Inject()(val client: SpeechWSClient) extends SpeechService {
 
-  override def speechToText(speech: File): String = {
+  override def speechToText(speech: File): Future[WSResponse] = client.post(speech)
 
-    val response = client.post(speech)
-    response.map {
-      r => {
-        Logger.debug(s"json response=${r.json}")
-        val transcripts = r.json \\ "transcript"
-        Logger.debug(s"best transcript=${transcripts.head}")
-      }
-    }
-    "text"
-  }
 }
