@@ -9,15 +9,15 @@ import ws.SpeechWSClient
 import scala.concurrent.ExecutionContext
 
 trait SpeechService {
-  def speechToText(): String
+  def speechToText(speech: File): String
 }
 
 class SpeechServiceImpl @Inject()(val client: SpeechWSClient,
                                   implicit val context: ExecutionContext) extends SpeechService {
 
-  override def speechToText(): String = {
+  override def speechToText(speech: File): String = {
 
-    val response = client.post(new File("data/myRecording01.wav"))
+    val response = client.post(speech)
     response.map {
       r => {
         Logger.debug(s"json response=${r.json}")

@@ -1,6 +1,6 @@
 package controllers
 
-import javax.inject.{Singleton, Inject}
+import javax.inject.{Inject, Singleton}
 
 import play.api.mvc.{Action, Controller}
 import services.SpeechService
@@ -9,11 +9,7 @@ import services.SpeechService
 class SpeechController @Inject()(speechService: SpeechService) extends Controller {
 
   def recognize = Action(parse.temporaryFile) { request =>
-    val body = request.body
-
-
-
-    Ok(speechService.speechToText())
+    Ok(speechService.speechToText(request.body.file))
   }
 
 }
