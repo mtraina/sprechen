@@ -10,3 +10,4 @@ target
 doc/speech-to-text
 conf/secure.conf
 node_modules
+public/js/bundle.js

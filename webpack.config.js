@@ -1,6 +1,3 @@
-var path = require('path');
-var webpack = require('webpack');
-
 module.exports = {
   entry: './app/assets/js/app.jsx',
 
@@ -8,8 +5,6 @@ module.exports = {
     path: './public/js',
     filename: 'bundle.js'
   },
-
-  //output: { path: __dirname, filename: 'bundle.js' },
 
   module: {
     loaders: [
