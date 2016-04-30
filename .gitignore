@@ -9,3 +9,4 @@ target
 .sbtserver*
 doc/speech-to-text
 conf/secure.conf
+node_modules
