@@ -1,0 +1,23 @@
+{
+  "name": "sprechy",
+  "version": "1.0.0",
+  "description": "This is your new Play application =================================",
+  "main": "webpack.config.js",
+  "directories": {
+    "doc": "doc",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mtraina/sprechy.git"
+  },
+  "author": "mtraina",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mtraina/sprechy/issues"
+  },
+  "homepage": "https://github.com/mtraina/sprechy#readme"
+}
