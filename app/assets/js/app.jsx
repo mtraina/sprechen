@@ -1,7 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import 'es6-promise';
-import 'whatwg-fetch';
+import "es6-promise";
+import "whatwg-fetch";
+import List from "./list.jsx";
 
 class CommentBox extends React.Component {
 
@@ -33,7 +34,7 @@ class CommentBox extends React.Component {
   render(){
     return <div>
       <input id="audio" type="file" onChange={this.previewFile}></input>
-      <img src="" height="200" alt="Image preview..."></img>
+      <List/>
     </div>;
   }
 };
