@@ -1,8 +1,18 @@
 import React from 'react';
 
+class ListItem extends React.Component {
+  render() {
+      return <li>{this.props.data}</li>;
+  }
+}
+
 class List extends React.Component {
   render() {
-      return <ul></ul>;
+      return <ul>
+        {this.props.data.map(function(d) {
+           return <ListItem data={d}/>;
+        })}
+      </ul>;
   }
 }
 

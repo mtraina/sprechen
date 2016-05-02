@@ -34,7 +34,7 @@ class CommentBox extends React.Component {
   render(){
     return <div>
       <input id="audio" type="file" onChange={this.previewFile}></input>
-      <List/>
+      <List data={[1,2,3,4,5]}/>
     </div>;
   }
 };
