@@ -3,10 +3,11 @@ package controllers
 import javax.inject.{Inject, Singleton}
 
 import play.api.Logger
+import play.api.libs.json.Json
 import play.api.mvc.{Action, Controller}
 import services.SpeechService
 
-import scala.concurrent.ExecutionContext
+import scala.concurrent.{Future, ExecutionContext}
 
 @Singleton
 class SpeechController @Inject()(speechService: SpeechService,
@@ -23,11 +24,13 @@ class SpeechController @Inject()(speechService: SpeechService,
   def recognize = Action.async(parse.multipartFormData) { request =>
     Logger.debug(request.body.toString)
 
-    val speech = request.body.file("speech").get
-    speechService.speechToText(speech.ref.file)
-          .map { r =>
-            Logger.debug(s"json response=${r.json}")
-            Ok((r.json \\ "transcript").head)
-        }
+    val speech = request.body.file("speech")
+    speech.map(s => speechService.speechToText(s.ref.file)
+        .map { r =>
+          Logger.debug(s"json response=${r.json}")
+          val guesses = r.json \\ "transcript"
+          Ok(Json.obj("guesses" -> guesses))
+        })
+      .getOrElse(Future(BadRequest))
   }
 }
