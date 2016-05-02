@@ -19,15 +19,9 @@ class CommentBox extends React.Component {
           method: "POST",
           body: data
         })
-        .then(function(response){
-          return response.json();
-        })
-        .then(function(json){
-          console.log("json: ", json);
-        })
-        .catch(function(error) {
-          console.log("Request failed", error);
-        });
+        .then(r => r.json())
+        .then(json => console.log("json: ", json))
+        .catch(error => console.log("Request failed", error))
     };
 
     if (file) {
