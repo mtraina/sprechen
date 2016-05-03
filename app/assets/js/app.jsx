@@ -5,6 +5,11 @@ import "whatwg-fetch";
 import List from "./list.jsx";
 
 class CommentBox extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {guesses: []};
+    this.previewFile = this.previewFile.bind(this);
+  }
 
   previewFile(event) {
     console.log("previewFile...in");
@@ -21,7 +26,10 @@ class CommentBox extends React.Component {
           body: data
         })
         .then(r => r.json())
-        .then(json => console.log("json: ", json))
+        .then(json => {
+          console.log("json: ", json);
+          this.setState({guesses: json.guesses});
+        })
         .catch(error => console.log("Request failed", error))
     };
 
@@ -34,7 +42,7 @@ class CommentBox extends React.Component {
   render(){
     return <div>
       <input id="audio" type="file" onChange={this.previewFile}></input>
-      <List data={[1,2,3,4,5]}/>
+      <List id="list" data={this.state.guesses}/>
     </div>;
   }
 };
