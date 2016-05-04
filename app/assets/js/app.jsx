@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import "es6-promise";
 import "whatwg-fetch";
 import List from "./list.jsx";
-import Recorder from "./recorder.jsx";
+import VoiceRecorder from "./VoiceRecorder.jsx";
 
 class CommentBox extends React.Component {
   constructor(props) {
@@ -44,7 +44,7 @@ class CommentBox extends React.Component {
     return <div>
       <input id="audio" type="file" onChange={this.previewFile}></input>
       <List id="list" data={this.state.guesses}/>
-      <Recorder/>
+      <VoiceRecorder/>
     </div>;
   }
 };
