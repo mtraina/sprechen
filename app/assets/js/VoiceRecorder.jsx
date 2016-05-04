@@ -5,6 +5,8 @@ class VoiceRecorder extends React.Component {
   constructor(props){
     super(props);
     this.startUserMedia = this.startUserMedia.bind(this);
+    this.startRecording = this.startRecording.bind(this);
+    this.stopRecording = this.stopRecording.bind(this);
   }
 
   componentDidMount(){
@@ -22,10 +24,6 @@ class VoiceRecorder extends React.Component {
     } else {
       console.log("getUserMedia not supported");
     }
-
-    // navigator.getUserMedia({audio: true}, this.startUserMedia, function(e) {
-    //   console.log('No live audio input: ' + e);
-    // });
   }
 
   startUserMedia(stream) {
@@ -41,15 +39,16 @@ class VoiceRecorder extends React.Component {
   }
 
   startRecording() {
-    //recorder && recorder.record();
     document.querySelector("#start").disabled = true;
     document.querySelector("#stop").disabled = false;
-    //button.nextElementSibling.disabled = false;
+
+    this.recorder && this.recorder.record();
     console.log('Start recording...');
   }
 
   stopRecording(){
     console.log('Stop recording...');
+    this.recorder && this.recorder.stop();
 
     document.querySelector("#stop").disabled = true;
     document.querySelector("#start").disabled = false;
