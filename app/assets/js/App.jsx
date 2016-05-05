@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "es6-promise";
 import "whatwg-fetch";
-import List from "./list.jsx";
+import List from "./List.jsx";
 import VoiceRecorder from "./VoiceRecorder.jsx";
 
 class CommentBox extends React.Component {
