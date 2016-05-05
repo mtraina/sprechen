@@ -57,28 +57,12 @@ class VoiceRecorder extends React.Component {
     console.log('Stop recording...');
     this.recorder && this.recorder.stop();
 
-    this.recorder.exportWAV(this.sendSpeech);
+    this.recorder.exportWAV(this.props.handleSpeech);
 
     this.recorder.clear();
 
     document.querySelector("#stop").disabled = true;
     document.querySelector("#start").disabled = false;
-  }
-
-  sendSpeech(blob){
-    const data = new FormData();
-    data.append("speech", blob);
-
-    fetch("http://localhost:9000/recognize", {
-        method: "POST",
-        body: data
-      })
-      .then(r => r.json())
-      .then(json => {
-        console.log("json: ", json);
-        this.setState({guesses: json.guesses});
-      })
-      .catch(error => console.log("Request failed", error))
   }
 
   render(){
