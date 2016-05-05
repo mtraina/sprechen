@@ -31,9 +31,9 @@ class CommentBox extends React.Component {
 
   render(){
     return <div>
-      <RecordUploader/>
-      <List id="list" data={this.state.guesses}/>
+      <RecordUploader handleSpeech={this.sendSpeech}/>
       <VoiceRecorder handleSpeech={this.sendSpeech}/>
+      <List id="list" data={this.state.guesses}/>
     </div>;
   }
 };

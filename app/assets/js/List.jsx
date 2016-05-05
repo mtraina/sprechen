@@ -8,9 +8,9 @@ class ListItem extends React.Component {
 
 class List extends React.Component {
   render() {
-      return <ul>
-        {this.props.data.map((d, i) => <ListItem key={i} data={d}/>)}
-      </ul>;
+    return <div><h3>Results:</h3>
+        <ul>{this.props.data.map((d, i) => <ListItem key={i} data={d}/>)}</ul>
+      </div>;
   }
 }
 
