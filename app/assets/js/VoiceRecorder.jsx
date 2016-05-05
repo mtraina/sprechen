@@ -40,9 +40,6 @@ class VoiceRecorder extends React.Component {
     let audioContext = new AudioContext;
     let input = audioContext.createMediaStreamSource(stream);
     console.log('Media stream created.');
-    // Uncomment if you want the audio to feedback directly
-    //input.connect(audio_context.destination);
-    //__log('Input connected to audio context destination.');
 
     this.recorder = new Recorder(input);
     console.log('Recorder initialised.');
@@ -62,16 +59,11 @@ class VoiceRecorder extends React.Component {
 
     this.recorder.exportWAV(this.sendSpeech);
 
-    //this.recorder.getBuffer(this.recorder.exportWAV(this.sendSpeech));
+    this.recorder.clear();
 
     document.querySelector("#stop").disabled = true;
     document.querySelector("#start").disabled = false;
   }
-
-  // doneEncoding(blob){
-  //   let url = URL.createObjectURL(blob);
-  //   Recorder.setupDownload(blob, "myRecording" + ((recIndex<10)?"0":"") + recIndex + ".wav" );
-  // }
 
   sendSpeech(blob){
     const data = new FormData();
