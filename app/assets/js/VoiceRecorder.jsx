@@ -18,9 +18,19 @@ class VoiceRecorder extends React.Component {
                          navigator.mozGetUserMedia;
 
     if (navigator.getUserMedia) {
-      navigator.getUserMedia({audio: true}, this.startUserMedia, function(e) {
-        console.log('No live audio input: ' + e);
-      });
+      navigator.getUserMedia(
+        {"audio": {
+          "mandatory": {
+            "googEchoCancellation": "false",
+            "googAutoGainControl": "false",
+            "googNoiseSuppression": "false",
+            "googHighpassFilter": "false"
+          },
+          "optional": []
+        }},
+        this.startUserMedia, function(e) {
+          console.log('No live audio input: ' + e);
+        });
     } else {
       console.log("getUserMedia not supported");
     }
@@ -50,8 +60,33 @@ class VoiceRecorder extends React.Component {
     console.log('Stop recording...');
     this.recorder && this.recorder.stop();
 
+    this.recorder.exportWAV(this.sendSpeech);
+
+    //this.recorder.getBuffer(this.recorder.exportWAV(this.sendSpeech));
+
     document.querySelector("#stop").disabled = true;
     document.querySelector("#start").disabled = false;
+  }
+
+  // doneEncoding(blob){
+  //   let url = URL.createObjectURL(blob);
+  //   Recorder.setupDownload(blob, "myRecording" + ((recIndex<10)?"0":"") + recIndex + ".wav" );
+  // }
+
+  sendSpeech(blob){
+    const data = new FormData();
+    data.append("speech", blob);
+
+    fetch("http://localhost:9000/recognize", {
+        method: "POST",
+        body: data
+      })
+      .then(r => r.json())
+      .then(json => {
+        console.log("json: ", json);
+        this.setState({guesses: json.guesses});
+      })
+      .catch(error => console.log("Request failed", error))
   }
 
   render(){
