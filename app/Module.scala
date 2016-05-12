@@ -1,4 +1,5 @@
 import com.google.inject.AbstractModule
+import persistence.{SpeechDaoImpl, SpeechDao}
 import services._
 import ws.{SpeechWSClient, SpeechWSClientImpl}
 
@@ -16,6 +17,7 @@ class Module extends AbstractModule {
 
   override def configure() = {
     bind(classOf[SpeechWSClient]).to(classOf[SpeechWSClientImpl])
+    bind(classOf[SpeechDao]).to(classOf[SpeechDaoImpl])
     bind(classOf[SpeechService]).to(classOf[SpeechServiceImpl])
   }
 

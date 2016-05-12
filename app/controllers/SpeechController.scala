@@ -33,4 +33,8 @@ class SpeechController @Inject()(speechService: SpeechService,
         })
       .getOrElse(Future(BadRequest))
   }
+
+  def create = Action.async {
+    speechService.createSpeech().map(_ => Ok)
+  }
 }
