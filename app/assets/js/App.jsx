@@ -17,7 +17,7 @@ class CommentBox extends React.Component {
     const data = new FormData();
     data.append("speech", blob);
 
-    fetch("http://localhost:9000/recognize", {
+    fetch("/recognize", {
         method: "POST",
         body: data
       })
