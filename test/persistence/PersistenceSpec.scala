@@ -1,36 +1,51 @@
 package persistence
 
-import models.Speech
-import org.scalatest.mock.MockitoSugar
-import org.scalatestplus.play.PlaySpec
+import javax.inject.Inject
 
-import play.api.{Configuration, Mode}
+import com.google.inject
+import play.api.Play
+
 import play.api.inject.guice.GuiceApplicationBuilder
-import play.api.libs.ws.WSClient
-import play.api.inject.bind
-import play.modules.reactivemongo.ReactiveMongoApi
 
-class PersistenceSpec extends PlaySpec with MockitoSugar {
+import play.api.test.FakeApplication
+import play.api.test.Helpers._
 
-  "A persistence class" must {
-    val wsClient = mock[WSClient]
-    val conf = mock[Configuration]
+import reactivemongo.api.gridfs.GridFS
 
-    val app = new GuiceApplicationBuilder()
-      .in(Mode.Test)
-      .configure("play.modules.enabled" -> List("play.modules.reactivemongo.ReactiveMongoModule"))
-      .overrides(bind[WSClient].to(wsClient))
-      .overrides(bind[Configuration].to(conf))
-      .build
+import play.modules.reactivemongo.{
+DefaultReactiveMongoApi,
+ReactiveMongoApiFromContext,
+ReactiveMongoApi
+}
 
-    val reactiveMongoApi = app.injector.instanceOf[ReactiveMongoApi]
+import scala.concurrent.duration._
 
-    val speechDao = new SpeechDaoImpl(reactiveMongoApi)
+import org.specs2.concurrent.ExecutionEnv
 
-    val res = speechDao.create(Speech(transcript = "cheers"))
+object PlaySpec extends org.specs2.mutable.Specification {
+  "be initialized from custom application context" in { implicit ee: ExecutionEnv =>
+    import play.api.{
+      ApplicationLoader,
+      Configuration
+    }
 
-    res mustBe null
+    val timeout = 5 seconds
+    val env = play.api.Environment.simple(mode = play.api.Mode.Test)
+    val config = Configuration.load(env)
+    val context = ApplicationLoader.Context(env, None,
+      new play.core.DefaultWebCommands(), config)
+
+    val apiFromCustomCtx = new ReactiveMongoApiFromContext(context) {
+      lazy val router = play.api.routing.Router.empty
+    }
+
+    apiFromCustomCtx.reactiveMongoApi.database.map(_ => {})
+      .aka("database resolution") must beEqualTo({}).await(retries = 1, timeout = timeout)
+
+    //val i = GuiceApplicationBuilder.
+//    @Inject
+//    val speechDao: SpeechDao
+//    val j = 0
 
   }
-
 }
