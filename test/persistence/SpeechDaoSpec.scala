@@ -1,9 +1,10 @@
 package persistence
 
-import models.Speech
-import play.api.test.{WithApplication, PlaySpecification}
+import org.specs2.concurrent.{ExecutionEnv => EE}
+import play.api.test.{PlaySpecification, WithApplication}
 
-import scala.concurrent.ExecutionContext
+import scala.concurrent.{Await, ExecutionContext}
+import scala.concurrent.duration._
 
 class SpeechDaoSpec extends PlaySpecification {
 
@@ -14,13 +15,11 @@ class SpeechDaoSpec extends PlaySpecification {
       //speechDao must be (null)
       //val result = speechDao.create(Speech(transcript = "cheers2"))
 
-      speechDao.find().map {
-        speeches => {
-          speeches.length must beEqualTo(1)
-          //print(speeches)
-        }
-      }
-      //result.onComplete(r => r must be (null))(context)
+      //speechDao.find().map(s => s.length) must beEqualTo(1).awaitFor(2 seconds)
+      val timeout = 5 seconds
+      val result = Await.result(speechDao.find(), timeout)
+
+      result.length must beEqualTo(3)
     }
   }
 
