@@ -30,7 +30,7 @@ class SpeechDaoImpl @Inject()(val reactiveMongoApi: ReactiveMongoApi) extends Sp
   import JsonFormats._
   import play.modules.reactivemongo.json._
 
-  def collection: JSONCollection = reactiveMongoApi.db.collection[JSONCollection]("speeches")
+  def collection: JSONCollection = reactiveMongoApi.db.collection[JSONCollection](SpeechDao.collectionName)
 
   override def find(): Future[List[Speech]] = {
     //val query = BSONDocument("transcript" -> BSONDocument("$gt" -> 27))
@@ -42,5 +42,9 @@ class SpeechDaoImpl @Inject()(val reactiveMongoApi: ReactiveMongoApi) extends Sp
 
   override def create(speech: Speech): Future[WriteResult] = collection.insert(speech)
 
+}
+
+object SpeechDao {
+  val collectionName = "speeches"
 }
 
