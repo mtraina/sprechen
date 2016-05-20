@@ -8,10 +8,9 @@ import play.api.libs.json.Json
 import play.modules.reactivemongo.ReactiveMongoApi
 import reactivemongo.api.Cursor
 import reactivemongo.api.commands.WriteResult
-import reactivemongo.bson.BSONDocument
 import reactivemongo.play.json.collection.JSONCollection
 
-import scala.concurrent.Future
+import scala.concurrent.{Await, Future}
 
 object JsonFormats {
   import play.api.libs.json.Json
@@ -29,13 +28,13 @@ class SpeechDaoImpl @Inject()(val reactiveMongoApi: ReactiveMongoApi) extends Sp
 
   import JsonFormats._
   import play.modules.reactivemongo.json._
+  import scala.concurrent.duration._
 
-  def collection: JSONCollection = reactiveMongoApi.db.collection[JSONCollection](SpeechDao.collectionName)
+  def collection = Await.result(reactiveMongoApi.database
+    .map(db => db.collection[JSONCollection](SpeechDao.collectionName)), 5 seconds)
 
   override def find(): Future[List[Speech]] = {
-    //val query = BSONDocument("transcript" -> BSONDocument("$gt" -> 27))
-    val cursor: Cursor[Speech] = collection.find(Json.obj("transcript" -> "cheers")).cursor[Speech]
-    //val speeches: Future[List[Speech]] = cursor.collect[List]()
+    val cursor: Cursor[Speech] = collection.find(Json.obj()).cursor[Speech]()
     val speeches: Future[List[Speech]] = cursor.collect[List]()
     speeches
   }
