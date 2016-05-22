@@ -7,5 +7,7 @@ GET     /                           controllers.HomeController.index
 
 POST    /recognize                  controllers.SpeechController.recognize
 
+GET     /speeches                   controllers.SpeechController.speeches
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)

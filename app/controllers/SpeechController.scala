@@ -3,10 +3,12 @@ package controllers
 import javax.inject.{Inject, Singleton}
 
 import play.api.Logger
+import play.api.libs.json.Json
 import play.api.mvc.{Action, Controller}
 import services.SpeechService
 
 import scala.concurrent.ExecutionContext
+import persistence.JsonFormats._
 
 @Singleton
 class SpeechController @Inject()(speechService: SpeechService,
@@ -20,5 +22,9 @@ class SpeechController @Inject()(speechService: SpeechService,
         Ok
       case _ => BadRequest
     }
+  }
+
+  def speeches = Action.async {
+    speechService.getSpeeches().map(s => Ok(Json.toJson(s)))
   }
 }

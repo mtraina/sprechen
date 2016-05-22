@@ -13,10 +13,13 @@ import ws.SpeechWSClient
 import scala.concurrent.Future
 
 trait SpeechService {
+  def getSpeeches(): Future[List[Speech]]
   def saveSpeech(speech: File): Future[WSResponse]
 }
 
 class SpeechServiceImpl @Inject()(val client: SpeechWSClient, val speechDao: SpeechDao) extends SpeechService {
+
+  override def getSpeeches(): Future[List[Speech]] = speechDao.find()
 
   override def saveSpeech(speech: File): Future[WSResponse] = {
     val response = client.post(speech)
