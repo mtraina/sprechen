@@ -6,18 +6,14 @@ import javax.inject.Inject
 import models.Speech
 import persistence.SpeechDao
 import play.api.Logger
+import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.libs.ws.WSResponse
-import reactivemongo.api.commands.WriteResult
 import ws.SpeechWSClient
 
 import scala.concurrent.Future
 
-import play.api.libs.concurrent.Execution.Implicits.defaultContext
-
 trait SpeechService {
   def saveSpeech(speech: File): Future[WSResponse]
-
-  def createSpeech(): Future[WriteResult]
 }
 
 class SpeechServiceImpl @Inject()(val client: SpeechWSClient, val speechDao: SpeechDao) extends SpeechService {
@@ -30,10 +26,6 @@ class SpeechServiceImpl @Inject()(val client: SpeechWSClient, val speechDao: Spe
       speechDao.create(Speech(transcript = guesses.head.toString()))
     }
     response
-  }
-
-  override def createSpeech(): Future[WriteResult] = {
-    speechDao.create(Speech(transcript = "cheers"))
   }
 
 }

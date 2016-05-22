@@ -21,8 +21,4 @@ class SpeechController @Inject()(speechService: SpeechService,
       case _ => BadRequest
     }
   }
-
-  def create = Action.async {
-    speechService.createSpeech().map(_ => Ok)
-  }
 }
