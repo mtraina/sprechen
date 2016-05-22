@@ -8,7 +8,7 @@ import play.api.mvc.{Action, Controller}
 import services.SpeechService
 
 import scala.concurrent.ExecutionContext
-import persistence.JsonFormats._
+import models.JsonFormats._
 
 @Singleton
 class SpeechController @Inject()(speechService: SpeechService,

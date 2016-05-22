@@ -12,12 +12,6 @@ import reactivemongo.play.json.collection.JSONCollection
 
 import scala.concurrent.{Await, Future}
 
-object JsonFormats {
-  import play.api.libs.json.Json
-
-  implicit val speechFormat = Json.format[Speech]
-}
-
 trait SpeechDao {
   def find(): Future[List[Speech]]
 
@@ -26,7 +20,7 @@ trait SpeechDao {
 
 class SpeechDaoImpl @Inject()(val reactiveMongoApi: ReactiveMongoApi) extends SpeechDao {
 
-  import JsonFormats._
+  import models.JsonFormats._
   import play.modules.reactivemongo.json._
   import scala.concurrent.duration._
 
