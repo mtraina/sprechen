@@ -7,6 +7,7 @@ import models.Speech
 import persistence.SpeechDao
 import play.api.Logger
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
+import play.api.libs.json.JsString
 import play.api.libs.ws.WSResponse
 import ws.SpeechWSClient
 
@@ -26,7 +27,7 @@ class SpeechServiceImpl @Inject()(val client: SpeechWSClient, val speechDao: Spe
     response.map { r =>
       val guesses = r.json \\ "transcript"
       Logger.debug(s"save the guesses:{$guesses}")
-      speechDao.create(Speech(transcript = guesses.head.toString()))
+      speechDao.create(Speech(transcript = guesses.head.asInstanceOf[JsString].value))
     }
     response
   }
