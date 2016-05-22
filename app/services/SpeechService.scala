@@ -17,8 +17,6 @@ import play.api.libs.concurrent.Execution.Implicits.defaultContext
 trait SpeechService {
   def saveSpeech(speech: File): Future[WSResponse]
 
-  def speechToText(speech: File): Future[WSResponse]
-
   def createSpeech(): Future[WriteResult]
 }
 
@@ -33,8 +31,6 @@ class SpeechServiceImpl @Inject()(val client: SpeechWSClient, val speechDao: Spe
     }
     response
   }
-
-  override def speechToText(speech: File): Future[WSResponse] = client.post(speech)
 
   override def createSpeech(): Future[WriteResult] = {
     speechDao.create(Speech(transcript = "cheers"))

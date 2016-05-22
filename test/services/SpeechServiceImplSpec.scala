@@ -23,11 +23,7 @@ class SpeechServiceImplSpec extends FlatSpec with Matchers with MockitoSugar {
   given(client.post(f)) willReturn response
   val speechService = new SpeechServiceImpl(client, dao)
 
-  "A speech service" should "return the text related to the speech" in {
-    speechService.speechToText(f) shouldBe response
-  }
-
-  it should "save the speech and return the future of the value" in {
+  "A speech service" should "save the speech and return the future of the value" in {
     val resp = speechService.saveSpeech(f)
     resp.value.get.get.json shouldBe json
   }
