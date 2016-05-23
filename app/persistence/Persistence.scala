@@ -2,7 +2,7 @@ package persistence
 
 import javax.inject.Inject
 
-import models.Speech
+import models.Word
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.libs.json.Json
 import play.modules.reactivemongo.ReactiveMongoApi
@@ -12,32 +12,30 @@ import reactivemongo.play.json.collection.JSONCollection
 
 import scala.concurrent.{Await, Future}
 
-trait SpeechDao {
-  def find(): Future[List[Speech]]
+trait WordDao {
+  def find(): Future[List[Word]]
 
-  def create(speech: Speech): Future[WriteResult]
+  def create(speech: Word): Future[WriteResult]
 }
 
-class SpeechDaoImpl @Inject()(val reactiveMongoApi: ReactiveMongoApi) extends SpeechDao {
-
-  import models.JsonFormats._
+class WordDaoImpl @Inject()(val reactiveMongoApi: ReactiveMongoApi) extends WordDao {
+  import models.JsonFormats.wordFormat
   import play.modules.reactivemongo.json._
   import scala.concurrent.duration._
 
   def collection = Await.result(reactiveMongoApi.database
-    .map(db => db.collection[JSONCollection](SpeechDao.collectionName)), 5 seconds)
+    .map(db => db.collection[JSONCollection](WordDao.collectionName)), 5 seconds)
 
-  override def find(): Future[List[Speech]] = {
-    val cursor: Cursor[Speech] = collection.find(Json.obj()).cursor[Speech]()
-    val speeches: Future[List[Speech]] = cursor.collect[List]()
+  override def find(): Future[List[Word]] = {
+    val cursor: Cursor[Word] = collection.find(Json.obj()).cursor[Word]()
+    val speeches: Future[List[Word]] = cursor.collect[List]()
     speeches
   }
 
-  override def create(speech: Speech): Future[WriteResult] = collection.insert(speech)
-
+  override def create(dict: Word): Future[WriteResult] = collection.insert(dict)
 }
 
-object SpeechDao {
-  val collectionName = "speeches"
+object WordDao {
+  val collectionName = "dictionary"
 }
 

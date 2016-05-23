@@ -1,5 +1,5 @@
 import com.google.inject.AbstractModule
-import persistence.{SpeechDaoImpl, SpeechDao}
+import persistence.{WordDaoImpl, WordDao}
 import services._
 import ws.{TranslateClientImpl, TranslateClient, SpeechClient, SpeechClientImpl}
 
@@ -21,9 +21,9 @@ class Module extends AbstractModule {
     bind(classOf[TranslateClient]).to(classOf[TranslateClientImpl])
 
     // persistence
-    bind(classOf[SpeechDao]).to(classOf[SpeechDaoImpl])
+    bind(classOf[WordDao]).to(classOf[WordDaoImpl])
 
     // services
-    bind(classOf[SpeechService]).to(classOf[SpeechServiceImpl])
+    bind(classOf[WordService]).to(classOf[WordServiceImpl])
   }
 }

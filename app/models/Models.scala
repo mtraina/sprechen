@@ -1,9 +1,9 @@
 package models
 
-case class Speech(transcript: String)
+case class Word(text: String, translations: Set[String])
 
 object JsonFormats {
   import play.api.libs.json.Json
 
-  implicit val speechFormat = Json.format[Speech]
+  implicit val wordFormat = Json.format[Word]
 }
