@@ -20,7 +20,7 @@ class SpeechClientImpl @Inject()(val ws: WSClient,
   val username = configuration.getString("speech.converter.service.username").get
   val password = configuration.getString("speech.converter.service.password").get
 
-  def post(speech: File): Future[WSResponse] = {
+  override def post(speech: File): Future[WSResponse] = {
     ws.url(url)
       .withAuth(username, password, BASIC)
       .withHeaders("content-type" -> "audio/wav")
