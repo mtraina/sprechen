@@ -32,7 +32,7 @@ class WordDaoImpl @Inject()(val reactiveMongoApi: ReactiveMongoApi) extends Word
     speeches
   }
 
-  override def create(dict: Word): Future[WriteResult] = collection.insert(dict)
+  override def create(word: Word): Future[WriteResult] = collection.insert(word)
 }
 
 object WordDao {

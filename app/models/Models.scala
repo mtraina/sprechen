@@ -1,6 +1,6 @@
 package models
 
-case class Word(text: String, translations: Set[String])
+case class Word(text: String, translations: Seq[String])
 
 object JsonFormats {
   import play.api.libs.json.Json
