@@ -19,7 +19,7 @@ class WordDaoSpec extends PlaySpecification with EmbeddedMongo {
       val reactiveMongoApi = app.injector.instanceOf[ReactiveMongoApi]
       Await.ready(reactiveMongoApi.database
         .map(db => db.collection[JSONCollection](WordDao.collectionName))
-          .map(coll => coll.insert(Word("car", Set("Auto")))), timeout)
+          .map(coll => coll.insert(Word("car", Seq("Auto")))), timeout)
 
       // when
       val wordDao = app.injector.instanceOf[WordDao]
