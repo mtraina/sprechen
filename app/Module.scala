@@ -1,7 +1,7 @@
 import com.google.inject.AbstractModule
 import persistence.{SpeechDaoImpl, SpeechDao}
 import services._
-import ws.{SpeechClient, SpeechClientImpl}
+import ws.{TranslateClientImpl, TranslateClient, SpeechClient, SpeechClientImpl}
 
 /**
  * This class is a Guice module that tells Guice how to bind several
@@ -16,9 +16,14 @@ import ws.{SpeechClient, SpeechClientImpl}
 class Module extends AbstractModule {
 
   override def configure() = {
+    // ws clients
     bind(classOf[SpeechClient]).to(classOf[SpeechClientImpl])
+    bind(classOf[TranslateClient]).to(classOf[TranslateClientImpl])
+
+    // persistence
     bind(classOf[SpeechDao]).to(classOf[SpeechDaoImpl])
+
+    // services
     bind(classOf[SpeechService]).to(classOf[SpeechServiceImpl])
   }
-
 }
