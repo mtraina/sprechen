@@ -9,12 +9,12 @@ import play.api.libs.ws.{WSResponse, WSClient}
 
 import scala.concurrent.Future
 
-trait SpeechWSClient {
+trait SpeechClient {
   def post(speech: File): Future[WSResponse]
 }
 
-class SpeechWSClientImpl @Inject()(val ws: WSClient,
-                                   val configuration: Configuration) extends SpeechWSClient {
+class SpeechClientImpl @Inject()(val ws: WSClient,
+                                 val configuration: Configuration) extends SpeechClient {
 
   val url = configuration.getString("speech.converter.service.url").get
   val username = configuration.getString("speech.converter.service.username").get

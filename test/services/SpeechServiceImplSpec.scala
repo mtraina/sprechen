@@ -8,7 +8,7 @@ import org.scalatest.{FlatSpec, Matchers}
 import persistence.SpeechDao
 import play.api.libs.json.Json
 import play.api.libs.ws.WSResponse
-import ws.SpeechWSClient
+import ws.SpeechClient
 
 import scala.concurrent.Future
 
@@ -18,7 +18,7 @@ class SpeechServiceImplSpec extends FlatSpec with Matchers with MockitoSugar {
   val json = Json.parse("""{"transcript":"text"}""")
   given(r.json).willReturn(json)
   val response = Future.successful(r)
-  val client = mock[SpeechWSClient]
+  val client = mock[SpeechClient]
   val dao = mock[SpeechDao]
   given(client.post(f)) willReturn response
   val speechService = new SpeechServiceImpl(client, dao)

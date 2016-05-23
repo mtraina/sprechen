@@ -9,7 +9,7 @@ import play.api.Logger
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.libs.json.JsString
 import play.api.libs.ws.WSResponse
-import ws.SpeechWSClient
+import ws.SpeechClient
 
 import scala.concurrent.Future
 
@@ -18,7 +18,7 @@ trait SpeechService {
   def saveSpeech(speech: File): Future[WSResponse]
 }
 
-class SpeechServiceImpl @Inject()(val client: SpeechWSClient, val speechDao: SpeechDao) extends SpeechService {
+class SpeechServiceImpl @Inject()(val client: SpeechClient, val speechDao: SpeechDao) extends SpeechService {
 
   override def getSpeeches(): Future[List[Speech]] = speechDao.find()
 
