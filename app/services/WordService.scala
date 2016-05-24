@@ -32,8 +32,9 @@ class WordServiceImpl @Inject()(val client: SpeechClient,
       Logger.debug(s"got the guesses:{$guesses}")
 
       val guess = guesses.head.asInstanceOf[JsString]
+      val adaptedText = adaptText(guess.value)
 
-      translateClient.translate(guess.value).map { r =>
+      translateClient.translate(adaptedText).map { r =>
         Logger.debug(s"got the translation:{${r.json}}")
 
         val texts = (r.json \ "text").get.asInstanceOf[JsArray]
@@ -42,6 +43,12 @@ class WordServiceImpl @Inject()(val client: SpeechClient,
       }
     }
     response
+  }
+
+  def adaptText(text: String): String = {
+    if(text.lastIndexOf(" ") == text.length - 1)
+      text.substring(0, text.length - 1)
+    else text
   }
 
 }
