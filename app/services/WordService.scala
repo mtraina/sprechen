@@ -27,7 +27,7 @@ class WordServiceImpl @Inject()(val client: SpeechClient,
   override def saveWord(speech: File): Future[WSResponse] = {
     val response = client.post(speech)
     response.map { r =>
-      Logger.debug(s"got the recognition:{$r}")
+      Logger.debug(s"got the recognition:{$r.json}")
       val text = extractRecognition(r)
 
       translateClient.translate(text).map { r =>
