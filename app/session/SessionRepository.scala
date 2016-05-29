@@ -1,6 +1,7 @@
 package session
 
 import models.User
+import javax.inject.Singleton
 
 trait SessionRepository {
   def isLoggedIn(name: String): Boolean
@@ -8,6 +9,7 @@ trait SessionRepository {
   def logout(name: String): Unit
 }
 
+@Singleton
 class SessionRepositoryImpl extends SessionRepository {
   override def isLoggedIn(name: String): Boolean = ???
 

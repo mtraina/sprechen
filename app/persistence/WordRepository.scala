@@ -12,12 +12,15 @@ import reactivemongo.play.json.collection.JSONCollection
 
 import scala.concurrent.{Await, Future}
 
+import javax.inject.Singleton
+
 trait WordRepository {
   def find(): Future[List[Word]]
 
   def create(speech: Word): Future[WriteResult]
 }
 
+@Singleton
 class WordRepositoryImpl @Inject()(val reactiveMongoApi: ReactiveMongoApi) extends WordRepository {
   import models.JsonFormats.wordFormat
   import play.modules.reactivemongo.json._

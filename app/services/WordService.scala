@@ -7,7 +7,7 @@ import models.Word
 import persistence.WordRepository
 import play.api.Logger
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
-import play.api.libs.json.{JsDefined, JsArray, JsString}
+import play.api.libs.json.{JsArray, JsString}
 import play.api.libs.ws.WSResponse
 import ws.{SpeechClient, TranslateClient}
 
