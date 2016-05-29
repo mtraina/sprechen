@@ -10,22 +10,22 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration._
 import models.JsonFormats.wordFormat
 
-class WordDaoSpec extends PlaySpecification with EmbeddedMongo {
+class WordRepositorySpec extends PlaySpecification with EmbeddedMongo {
 
-  "A WordDao" should {
+  "A Word repository" should {
     "get a value" in new WithApplication(){
       // given
       val timeout = 5 seconds
       val reactiveMongoApi = app.injector.instanceOf[ReactiveMongoApi]
       Await.ready(reactiveMongoApi.database
-        .map(db => db.collection[JSONCollection](WordDao.collectionName))
+        .map(db => db.collection[JSONCollection](WordRepository.collectionName))
           .map(coll => coll.insert(Word("car", Seq("Auto")))), timeout)
 
       // when
-      val wordDao = app.injector.instanceOf[WordDao]
+      val wordRepository = app.injector.instanceOf[WordRepository]
 
       // then
-      val result = Await.result(wordDao.find(), timeout)
+      val result = Await.result(wordRepository.find(), timeout)
       result.length must beEqualTo(1)
     }
   }

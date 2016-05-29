@@ -5,7 +5,7 @@ import java.io.File
 import org.mockito.BDDMockito._
 import org.scalatest.mock.MockitoSugar
 import org.scalatest.{FlatSpec, Matchers}
-import persistence.WordDao
+import persistence.WordRepository
 import play.api.libs.json.Json
 import play.api.libs.ws.WSResponse
 import ws.{TranslateClient, SpeechClient}
@@ -19,11 +19,11 @@ class WordServiceImplSpec extends FlatSpec with Matchers with MockitoSugar {
   given(r.json).willReturn(json)
   val response = Future.successful(r)
   val client = mock[SpeechClient]
-  val dao = mock[WordDao]
+  val wr = mock[WordRepository]
   given(client.post(f)) willReturn response
 
   val tc = mock[TranslateClient]
-  val wordService = new WordServiceImpl(client, dao, tc)
+  val wordService = new WordServiceImpl(client, wr, tc)
 
   "A word service" should "save the speech and return the future of the value" in {
     val resp = wordService.saveWord(f)

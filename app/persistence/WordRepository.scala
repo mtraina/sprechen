@@ -12,19 +12,19 @@ import reactivemongo.play.json.collection.JSONCollection
 
 import scala.concurrent.{Await, Future}
 
-trait WordDao {
+trait WordRepository {
   def find(): Future[List[Word]]
 
   def create(speech: Word): Future[WriteResult]
 }
 
-class WordDaoImpl @Inject()(val reactiveMongoApi: ReactiveMongoApi) extends WordDao {
+class WordRepositoryImpl @Inject()(val reactiveMongoApi: ReactiveMongoApi) extends WordRepository {
   import models.JsonFormats.wordFormat
   import play.modules.reactivemongo.json._
   import scala.concurrent.duration._
 
   def collection = Await.result(reactiveMongoApi.database
-    .map(db => db.collection[JSONCollection](WordDao.collectionName)), 5 seconds)
+    .map(db => db.collection[JSONCollection](WordRepository.collectionName)), 5 seconds)
 
   override def find(): Future[List[Word]] = {
     val cursor: Cursor[Word] = collection.find(Json.obj()).cursor[Word]()
@@ -35,7 +35,7 @@ class WordDaoImpl @Inject()(val reactiveMongoApi: ReactiveMongoApi) extends Word
   override def create(word: Word): Future[WriteResult] = collection.insert(word)
 }
 
-object WordDao {
+object WordRepository {
   val collectionName = "dictionary"
 }
 

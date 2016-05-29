@@ -4,7 +4,7 @@ import java.io.File
 import javax.inject.Inject
 
 import models.Word
-import persistence.WordDao
+import persistence.WordRepository
 import play.api.Logger
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.libs.json.{JsDefined, JsArray, JsString}
@@ -19,10 +19,10 @@ trait WordService {
 }
 
 class WordServiceImpl @Inject()(val client: SpeechClient,
-                                val wordDao: WordDao,
+                                val wordRepository: WordRepository,
                                 val translateClient: TranslateClient) extends WordService {
 
-  override def getWords(): Future[List[Word]] = wordDao.find()
+  override def getWords(): Future[List[Word]] = wordRepository.find()
 
   override def saveWord(speech: File): Future[WSResponse] = {
     val response = client.post(speech)
@@ -33,7 +33,7 @@ class WordServiceImpl @Inject()(val client: SpeechClient,
         Logger.debug(s"got the translation:{${r.json}}")
         val texts = (r.json \ "text").get.asInstanceOf[JsArray]
         val translations = texts.value.map(v => v.asInstanceOf[JsString].value)
-        wordDao.create(Word(text = text, translations = translations))
+        wordRepository.create(Word(text = text, translations = translations))
       }
     }
     response
