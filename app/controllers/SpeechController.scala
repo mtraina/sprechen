@@ -2,6 +2,7 @@ package controllers
 
 import javax.inject.{Inject, Singleton}
 
+import controllers.action.Secured
 import play.api.Logger
 import play.api.libs.json.Json
 import play.api.mvc.{Action, Controller}
@@ -24,7 +25,9 @@ class SpeechController @Inject()(wordService: WordService,
     }
   }
 
-  def speeches = Action.async {
-    wordService.getWords().map(s => Ok(Json.toJson(s)))
+  def speeches = Secured {
+    Action.async { request =>
+      wordService.getWords().map(s => Ok(Json.toJson(s)))
+    }
   }
 }
