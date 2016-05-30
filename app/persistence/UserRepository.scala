@@ -10,10 +10,11 @@ trait UserRepository {
 
 @Singleton
 class UserRepositoryImpl extends UserRepository {
-  // TODO: change impl. after testing
-  override def login(username: String, password: String): Boolean = true
 
-  override def isLoggedIn(username: String): Boolean = ???
+  override def login(username: String, password: String): Boolean = ???
+
+  // TODO: change impl. after testing
+  override def isLoggedIn(username: String): Boolean = true
 
   override def logout(username: String): Unit = ???
 }
