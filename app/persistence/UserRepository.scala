@@ -11,7 +11,8 @@ trait UserRepository {
 @Singleton
 class UserRepositoryImpl extends UserRepository {
 
-  override def login(username: String, password: String): Boolean = ???
+  // TODO: change impl. after testing
+  override def login(username: String, password: String): Boolean = true
 
   // TODO: change impl. after testing
   override def isLoggedIn(username: String): Boolean = true
