@@ -1,6 +1,11 @@
 package persistence
 
-import javax.inject.Singleton
+import javax.inject.{Inject, Singleton}
+
+import play.modules.reactivemongo.ReactiveMongoApi
+import reactivemongo.play.json.collection.JSONCollection
+
+import scala.concurrent.Await
 
 trait UserRepository {
   def login(username: String, password: String): Boolean
@@ -9,7 +14,12 @@ trait UserRepository {
 }
 
 @Singleton
-class UserRepositoryImpl extends UserRepository {
+class UserRepositoryImpl @Inject()(val reactiveMongoApi: ReactiveMongoApi) extends UserRepository {
+  import scala.concurrent.duration._
+  import scala.concurrent.ExecutionContext.Implicits.global
+
+  def collection = Await.result(reactiveMongoApi.database
+    .map(db => db.collection[JSONCollection](UserRepository.collectionName)), 5 seconds)
 
   // TODO: change impl. after testing
   override def login(username: String, password: String): Boolean = true
@@ -21,5 +31,5 @@ class UserRepositoryImpl extends UserRepository {
 }
 
 object UserRepository {
-  lazy val instance: UserRepository = new UserRepositoryImpl
+  val collectionName = "users"
 }
