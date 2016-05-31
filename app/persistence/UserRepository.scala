@@ -32,7 +32,7 @@ class UserRepositoryImpl @Inject()(val reactiveMongoApi: ReactiveMongoApi) exten
   }
 
   // TODO: change impl. after testing
-  override def isLoggedIn(username: String): Boolean = true
+  override def isLoggedIn(username: String): Boolean = false
 
   override def logout(username: String): Unit = ???
 }
