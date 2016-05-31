@@ -2,17 +2,18 @@ package controllers
 
 import javax.inject.{Inject, Singleton}
 
-import controllers.action.Secured
+import controllers.action.SecuredFactory
+import models.JsonFormats._
 import play.api.Logger
 import play.api.libs.json.Json
 import play.api.mvc.{Action, Controller}
 import services.WordService
 
 import scala.concurrent.ExecutionContext
-import models.JsonFormats._
 
 @Singleton
-class SpeechController @Inject()(wordService: WordService,
+class SpeechController @Inject()(val wordService: WordService,
+                                 val securedFactory: SecuredFactory,
                                  implicit val context: ExecutionContext) extends Controller {
 
   def recognize = Action(parse.multipartFormData) { request =>
@@ -25,7 +26,7 @@ class SpeechController @Inject()(wordService: WordService,
     }
   }
 
-  def speeches = Secured {
+  def speeches = securedFactory.secured {
     Action.async { request =>
       wordService.getWords().map(s => Ok(Json.toJson(s)))
     }

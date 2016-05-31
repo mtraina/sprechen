@@ -1,4 +1,5 @@
 import com.google.inject.AbstractModule
+import controllers.action.{SecuredFactoryImpl, SecuredFactory}
 import persistence.{UserRepositoryImpl, UserRepository, WordRepositoryImpl, WordRepository}
 import services._
 import session.{SessionRepositoryImpl, SessionRepository}
@@ -28,7 +29,8 @@ class Module extends AbstractModule {
     // services
     bind(classOf[WordService]).to(classOf[WordServiceImpl])
 
-    // session
+    // auth
+    bind(classOf[SecuredFactory]).to(classOf[SecuredFactoryImpl])
     bind(classOf[SessionRepository]).to(classOf[SessionRepositoryImpl])
   }
 }
