@@ -9,6 +9,7 @@ import play.api.libs.json.Json
 import play.modules.reactivemongo.ReactiveMongoApi
 import reactivemongo.play.json.collection.JSONCollection
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
+import session.SessionRepository
 
 import scala.concurrent.Await
 
@@ -20,7 +21,8 @@ trait UserRepository {
 
 @Singleton
 class UserRepositoryImpl @Inject()(val reactiveMongoApi: ReactiveMongoApi,
-                                   val configuration: Configuration) extends UserRepository {
+                                   val configuration: Configuration,
+                                   val sessionRepository: SessionRepository) extends UserRepository {
   import models.JsonFormats.userFormat
   import play.modules.reactivemongo.json._
   import scala.concurrent.duration._
@@ -36,9 +38,9 @@ class UserRepositoryImpl @Inject()(val reactiveMongoApi: ReactiveMongoApi,
     user.isDefined
   }
 
-  // TODO: change impl. after testing
-  override def isLoggedIn(username: String): Boolean = false
+  override def isLoggedIn(username: String): Boolean = sessionRepository.isLoggedIn(username)
 
+  // TODO: to be impl.
   override def logout(username: String): Unit = ???
 }
 
