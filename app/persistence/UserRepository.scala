@@ -31,7 +31,6 @@ class UserRepositoryImpl @Inject()(val reactiveMongoApi: ReactiveMongoApi,
   def collection = Await.result(reactiveMongoApi.database
     .map(db => db.collection[JSONCollection](UserRepository.collectionName)), 5 seconds)
 
-  // TODO: check the hashed password
   override def login(username: String, password: String): Boolean = {
     val user = Await.result(collection.find(Json.obj("username" -> username, "password" -> hash(password))).one[User], 5 seconds)
     user.isDefined
