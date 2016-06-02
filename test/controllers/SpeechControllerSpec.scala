@@ -2,6 +2,7 @@ package controllers
 
 import java.io.File
 
+import controllers.action.SecuredFactory
 import org.scalatest.mock.MockitoSugar
 import org.scalatest.{FlatSpec, Matchers}
 import play.api.libs.ws.WSResponse
@@ -13,8 +14,9 @@ import scala.concurrent.{ExecutionContext, Future}
 
 class SpeechControllerSpec extends FlatSpec with Matchers with MockitoSugar {
   val wordService = mock[WordService]
+  val securedFactory = mock[SecuredFactory]
   implicit val context: ExecutionContext = mock[ExecutionContext]
-  val speechController = new SpeechController(wordService, context)
+  val speechController = new SpeechController(wordService, securedFactory, context)
 
   ignore should "give back the text related to the speech" in {
     val f = new File("")
