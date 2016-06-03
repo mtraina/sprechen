@@ -3,18 +3,24 @@ package controllers
 import javax.inject.Inject
 
 import persistence.UserRepository
-import play.api.mvc.{Action, Controller}
+import play.api.mvc.{Request, Action, Controller}
 
 class AuthController @Inject()(val userRepository: UserRepository) extends Controller {
 
-  def authenticate = Action(parse.multipartFormData) { implicit request =>
-    val username = request.body.dataParts("username").head
-    val password = request.body.dataParts("password").head
-
-    userRepository.login(username, password) match {
-      case true => Ok("logged").withSession("user" -> username)
-      case false => Unauthorized
-    }
+  def authenticate = Action { implicit request =>
+    Ok("logged")
+//    val data = request.body.asJson
+//    val username = data.get.get("username").head
+//    val password = request.body//.dataParts("password").head
+//
+//    userRepository.login(username, password) match {
+//      case true => Ok("logged").withSession("user" -> username)
+//      case false => Unauthorized
+//    }
   }
+
+//  def credentials(request: Request) = {
+//    request.headers.get("Authorization")
+//  }
 
 }
