@@ -13,7 +13,7 @@ class AuthController @Inject()(val userRepository: UserRepository) extends Contr
     credentials(request).map(u => userRepository.login(u.username, u.password) match {
       case true => Ok("logged").withSession("user" -> u.username)
       case false => Unauthorized
-    }).get
+    }).getOrElse(Unauthorized)
   }
 
   def credentials(request: RequestHeader): Option[User] = {

@@ -16,7 +16,7 @@ class AuthControllerSpec extends PlaySpec with MockitoSugar with Results {
   val authController = new AuthController(userRepository)
 
   "An auth controller" should {
-    // TODO: no mocking: "with sessions needs a running application
+    // TODO: no mocking: for using "with session" we need a running application
 //    "authenticate with valid credentials" in {
 //      val user = "user"
 //      val pass = "pass"
@@ -32,6 +32,14 @@ class AuthControllerSpec extends PlaySpec with MockitoSugar with Results {
       val user = "user"
       val pass = "pass"
       val request = FakeRequest(POST, "/auth").withHeaders("Authorization" -> authHeaderValue(s"$user:$pass"))
+      val result = authController.authenticate()(request)
+      status(result) mustBe UNAUTHORIZED
+    }
+
+    "not authenticate with not valid authentication header" in {
+      val user = "user"
+      val pass = "pass"
+      val request = FakeRequest(POST, "/auth").withHeaders("Authorization" -> s"$user:$pass")
       val result = authController.authenticate()(request)
       status(result) mustBe UNAUTHORIZED
     }
