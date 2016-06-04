@@ -35,6 +35,9 @@ class UserRepositoryImpl @Inject()(val reactiveMongoApi: ReactiveMongoApi,
 
   override def login(username: String, password: String): Boolean = {
     val user = Await.result(collection.find(Json.obj("username" -> username, "password" -> hash(password))).one[User], 5 seconds)
+    if(user.isDefined){
+      sessionRepository.login(user.get)
+    }
     user.isDefined
   }
 
