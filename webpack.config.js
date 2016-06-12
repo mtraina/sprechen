@@ -1,8 +1,8 @@
-module.exports = {
-  entry: './app/assets/js/App.jsx',
+const config = {
+  entry: './app/assets/javascripts/App.jsx',
 
   output: {
-    path: './public/js',
+    path: './public/javascripts',
     filename: 'bundle.js',
     sourceMapFilename: "bundle.map"
   },
@@ -11,7 +11,7 @@ module.exports = {
     loaders: [
       {
         test: /.jsx?$/,
-        loader: 'babel-loader',
+        loader: 'babel',
         exclude: /node_modules/,
         query: {
           presets: ['es2015', 'react']
@@ -26,3 +26,5 @@ module.exports = {
       "react-router": "ReactRouter"
   }
 };
+
+module.exports = config
