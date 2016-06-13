@@ -1,6 +1,6 @@
 import React from "react";
 
-require('../stylesheets/modules/login-form.scss');
+//require('../stylesheets/modules/login-form.scss');
 
 export default class List extends React.Component {
   constructor(props){
@@ -20,10 +20,10 @@ export default class List extends React.Component {
 
   render() {
     return <div class="row">
-      <div class="medium-6 medium-centered large-4 large-centered columns">
+      <div className="medium-6 medium-centered large-4 large-centered columns">
         <form>
-          <div class="row column log-in-form">
-            <h4 class="text-center">Log in with you email account</h4>
+          <div className="row column log-in-form">
+            <h4 className="text-center">Log in with you email account</h4>
              <label>Email
               <input type="text" placeholder="somebody@example.com"/>
             </label>
@@ -31,8 +31,8 @@ export default class List extends React.Component {
               <input type="text" placeholder="Password"/>
             </label>
             {/* <input id="show-password" type="checkbox"><label for="show-password">Show password</label></input> */}
-            <p><a type="submit" class="button expanded">Log In</a></p>
-            <p class="text-center"><a href="#">Forgot your password?</a></p>
+            <p><a type="submit" className="button expanded">Log In</a></p>
+            <p className="text-center"><a href="#">Forgot your password?</a></p>
           </div>
         </form>
       </div>

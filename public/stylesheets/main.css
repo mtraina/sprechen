@@ -1,2 +1,10 @@
+/**
+ * Foundation for Sites by ZURB
+ * Version 6.2.3
+ * foundation.zurb.com
+ * Licensed under MIT Open Source
+ */
 .log-in-form {
-  border: 1px solid red; }
+  border: 1px solid #cacaca;
+  padding: 1rem;
+  border-radius: 3px; }

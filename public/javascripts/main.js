@@ -82,7 +82,7 @@
 /* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var require;var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(process, global, module) {/*!
+	var __WEBPACK_AMD_DEFINE_RESULT__;var require;/* WEBPACK VAR INJECTION */(function(process, global, module) {/*!
 	 * @overview es6-promise - a tiny implementation of Promises/A+.
 	 * @copyright Copyright (c) 2014 Yehuda Katz, Tom Dale, Stefan Penner and contributors (Conversion to ES6 API by Jake Archibald)
 	 * @license   Licensed under MIT license
@@ -2430,7 +2430,7 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	__webpack_require__(20);
+	//require('../stylesheets/modules/login-form.scss');
 
 	var List = function (_React$Component) {
 	  _inherits(List, _React$Component);
@@ -2465,16 +2465,16 @@
 	        { "class": "row" },
 	        _react2.default.createElement(
 	          "div",
-	          { "class": "medium-6 medium-centered large-4 large-centered columns" },
+	          { className: "medium-6 medium-centered large-4 large-centered columns" },
 	          _react2.default.createElement(
 	            "form",
 	            null,
 	            _react2.default.createElement(
 	              "div",
-	              { "class": "row column log-in-form" },
+	              { className: "row column log-in-form" },
 	              _react2.default.createElement(
 	                "h4",
-	                { "class": "text-center" },
+	                { className: "text-center" },
 	                "Log in with you email account"
 	              ),
 	              _react2.default.createElement(
@@ -2494,13 +2494,13 @@
 	                null,
 	                _react2.default.createElement(
 	                  "a",
-	                  { type: "submit", "class": "button expanded" },
+	                  { type: "submit", className: "button expanded" },
 	                  "Log In"
 	                )
 	              ),
 	              _react2.default.createElement(
 	                "p",
-	                { "class": "text-center" },
+	                { className: "text-center" },
 	                _react2.default.createElement(
 	                  "a",
 	                  { href: "#" },
