@@ -4,6 +4,6 @@ import "es6-promise";
 import "whatwg-fetch";
 import Routes from './Routes.jsx'
 
-require('../stylesheets/app.scss');
+require('../stylesheets/modules/login-form.scss');
 
 render(<Routes/>, document.getElementById('content'));

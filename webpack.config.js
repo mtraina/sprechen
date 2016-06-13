@@ -1,24 +1,36 @@
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+
 const config = {
   entry: './app/assets/javascripts/App.jsx',
 
   output: {
-    path: './public/javascripts',
-    filename: 'bundle.js',
+    path: './public/',
+    filename: 'javascripts/[name].js',
     sourceMapFilename: "bundle.map"
   },
 
   module: {
     loaders: [
       {
-        test: /.jsx?$/,
+        test: /\.jsx?$/,
         loader: 'babel',
         exclude: /node_modules/,
         query: {
           presets: ['es2015', 'react']
         }
+      },
+      {
+        test: /\.scss$/,
+        loader: ExtractTextPlugin.extract('css!sass')
       }
     ]
   },
+
+  plugins: [
+      new ExtractTextPlugin('stylesheets/[name].css', {
+          allChunks: true
+      })
+  ],
 
   externals: {
       "react": "React",

@@ -1,5 +1,7 @@
 import React from "react";
 
+require('../stylesheets/modules/login-form.scss');
+
 export default class List extends React.Component {
   constructor(props){
     super(props);
