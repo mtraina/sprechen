@@ -62,7 +62,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	__webpack_require__(20);
+	//require('../stylesheets/modules/login-form.scss');
 
 	(0, _reactDom.render)(_react2.default.createElement(_Routes2.default, null), document.getElementById('content'));
 
@@ -2410,7 +2410,7 @@
 /* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -2422,6 +2422,12 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _reactCookie = __webpack_require__(20);
+
+	var _reactCookie2 = _interopRequireDefault(_reactCookie);
+
+	var _reactRouter = __webpack_require__(10);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -2429,8 +2435,6 @@
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	//require('../stylesheets/modules/login-form.scss');
 
 	var List = function (_React$Component) {
 	  _inherits(List, _React$Component);
@@ -2440,71 +2444,82 @@
 
 	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(List).call(this, props));
 
+	    _this.state = { username: "", password: "" };
 	    _this.login = _this.login.bind(_this);
 	    return _this;
 	  }
 
 	  _createClass(List, [{
-	    key: "login",
-	    value: function login() {
-	      //console.log("username:", document.querySelector("#username").text());
+	    key: 'login',
+	    value: function login(e) {
+	      e.preventDefault();
+	      console.log("state:", this.state);
+	      var auth = btoa(this.state.username + ":" + this.state.password);
+
 	      fetch("/auth", {
 	        method: "POST",
-	        body: data
+	        headers: {
+	          "Authorization": "Basic " + auth
+	        }
 	      }).then(function (r) {
-	        return console.log(r);
+	        console.log(r);
+	        _reactCookie2.default.save("auth", auth, { path: "/" });
+	        _reactRouter.hashHistory.push("/");
 	      }).catch(function (error) {
 	        return console.log("Request failed", error);
 	      });
 	    }
 	  }, {
-	    key: "render",
+	    key: 'updateState',
+	    value: function updateState(k, v) {
+	      this.state[k] = v;
+	    }
+	  }, {
+	    key: 'render',
 	    value: function render() {
+	      var _this2 = this;
+
 	      return _react2.default.createElement(
-	        "div",
-	        { "class": "row" },
+	        'div',
+	        { 'class': 'row' },
 	        _react2.default.createElement(
-	          "div",
-	          { className: "medium-6 medium-centered large-4 large-centered columns" },
+	          'div',
+	          { className: 'medium-6 medium-centered large-4 large-centered columns' },
 	          _react2.default.createElement(
-	            "form",
-	            null,
+	            'form',
+	            { onSubmit: this.login },
 	            _react2.default.createElement(
-	              "div",
-	              { className: "row column log-in-form" },
+	              'div',
+	              { className: 'row column log-in-form' },
 	              _react2.default.createElement(
-	                "h4",
-	                { className: "text-center" },
-	                "Log in with you email account"
+	                'h4',
+	                { className: 'text-center' },
+	                'Log in with you email account'
 	              ),
 	              _react2.default.createElement(
-	                "label",
+	                'label',
 	                null,
-	                "Email",
-	                _react2.default.createElement("input", { type: "text", placeholder: "somebody@example.com" })
+	                'Username',
+	                _react2.default.createElement('input', { type: 'text', placeholder: 'Username', onChange: function onChange(e) {
+	                    return _this2.updateState("username", e.target.value);
+	                  } })
 	              ),
 	              _react2.default.createElement(
-	                "label",
+	                'label',
 	                null,
-	                "Password",
-	                _react2.default.createElement("input", { type: "text", placeholder: "Password" })
+	                'Password',
+	                _react2.default.createElement('input', { type: 'text', placeholder: 'Password', onChange: function onChange(e) {
+	                    return _this2.updateState("password", e.target.value);
+	                  } })
 	              ),
+	              _react2.default.createElement('input', { type: 'submit', className: 'button expanded', value: 'Log In' }),
 	              _react2.default.createElement(
-	                "p",
-	                null,
+	                'p',
+	                { className: 'text-center' },
 	                _react2.default.createElement(
-	                  "a",
-	                  { type: "submit", className: "button expanded" },
-	                  "Log In"
-	                )
-	              ),
-	              _react2.default.createElement(
-	                "p",
-	                { className: "text-center" },
-	                _react2.default.createElement(
-	                  "a",
-	                  { href: "#" },
-	                  "Forgot your password?"
+	                  'a',
+	                  { href: '#' },
+	                  'Forgot your password?'
 	                )
 	              )
 	            )
@@ -2521,9 +2536,315 @@
 
 /***/ },
 /* 20 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var cookie = __webpack_require__(21);
+
+	if (typeof Object.assign != 'function') {
+	  Object.assign = function(target) {
+	    'use strict';
+	    if (target == null) {
+	      throw new TypeError('Cannot convert undefined or null to object');
+	    }
+
+	    target = Object(target);
+	    for (var index = 1; index < arguments.length; index++) {
+	      var source = arguments[index];
+	      if (source != null) {
+	        for (var key in source) {
+	          if (Object.prototype.hasOwnProperty.call(source, key)) {
+	            target[key] = source[key];
+	          }
+	        }
+	      }
+	    }
+	    return target;
+	  };
+	}
+
+	var _rawCookie = {};
+	var _res = undefined;
+
+	function _isResWritable() {
+	  if(!_res)
+	    return false
+	  if(_res.headersSent === true)
+	    return false
+	  return true
+	}
+
+	function load(name, doNotParse) {
+	  var cookies = (typeof document === 'undefined') ? _rawCookie : cookie.parse(document.cookie);
+	  var cookieVal = cookies && cookies[name];
+
+	  if (!doNotParse) {
+	    try {
+	      cookieVal = JSON.parse(cookieVal);
+	    } catch(e) {
+	      // Not serialized object
+	    }
+	  }
+
+	  return cookieVal;
+	}
+
+	function select(regex) {
+	  var cookies = (typeof document === 'undefined') ? _rawCookie : cookie.parse(document.cookie);
+	  if(!cookies)
+	    return {}
+	  if(!regex)
+	    return cookies
+	  return Object.keys(cookies)
+	    .reduce(function(accumulator, name) {
+	      if(!regex.test(name))
+	        return accumulator
+	      var newCookie = {}
+	      newCookie[name] = cookies[name]
+	      return Object.assign({}, accumulator, newCookie)
+	    }, {})
+	}
+
+	function save(name, val, opt) {
+	  _rawCookie[name] = val;
+
+	  // allow you to work with cookies as objects.
+	  if (typeof val === 'object') {
+	    _rawCookie[name] = JSON.stringify(val);
+	  }
+
+	  // Cookies only work in the browser
+	  if (typeof document !== 'undefined') {
+	    document.cookie = cookie.serialize(name, _rawCookie[name], opt);
+	  }
+
+	  if (_isResWritable() && _res.cookie) {
+	    _res.cookie(name, val, opt);
+	  }
+	}
+
+	function remove(name, opt) {
+	  delete _rawCookie[name];
+
+	  if (typeof opt === 'undefined') {
+	    opt = {};
+	  } else if (typeof opt === 'string') {
+	    // Will be deprecated in future versions
+	    opt = { path: opt };
+	  }
+
+	  if (typeof document !== 'undefined') {
+	    opt.expires = new Date(1970, 1, 1, 0, 0, 1);
+	    document.cookie = cookie.serialize(name, '', opt);
+	  }
+
+	  if (_isResWritable() && _res.clearCookie) {
+	    _res.clearCookie(name, opt);
+	  }
+	}
+
+	function setRawCookie(rawCookie) {
+	  if (rawCookie) {
+	    _rawCookie = cookie.parse(rawCookie);
+	  } else {
+	    _rawCookie = {};
+	  }
+	}
+
+	function plugToRequest(req, res) {
+	  if (req.cookie) {
+	    _rawCookie = req.cookie;
+	  } else if (req.cookies) {
+	    _rawCookie = req.cookies;
+	  } else if (req.headers && req.headers.cookie) {
+	    setRawCookie(req.headers.cookie);
+	  } else {
+	    _rawCookie = {};
+	  }
+
+	  _res = res;
+	  return function unplug() {
+	    _res = null;
+	    _rawCookie = {};
+	  }
+	}
+
+	var reactCookie = {
+	  load: load,
+	  select: select,
+	  save: save,
+	  remove: remove,
+	  setRawCookie: setRawCookie,
+	  plugToRequest: plugToRequest
+	};
+
+	if (typeof window !== 'undefined') {
+	  window['reactCookie'] = reactCookie;
+	}
+
+	module.exports = reactCookie;
+
+
+/***/ },
+/* 21 */
 /***/ function(module, exports) {
 
-	// removed by extract-text-webpack-plugin
+	/*!
+	 * cookie
+	 * Copyright(c) 2012-2014 Roman Shtylman
+	 * Copyright(c) 2015 Douglas Christopher Wilson
+	 * MIT Licensed
+	 */
+
+	/**
+	 * Module exports.
+	 * @public
+	 */
+
+	exports.parse = parse;
+	exports.serialize = serialize;
+
+	/**
+	 * Module variables.
+	 * @private
+	 */
+
+	var decode = decodeURIComponent;
+	var encode = encodeURIComponent;
+
+	/**
+	 * RegExp to match field-content in RFC 7230 sec 3.2
+	 *
+	 * field-content = field-vchar [ 1*( SP / HTAB ) field-vchar ]
+	 * field-vchar   = VCHAR / obs-text
+	 * obs-text      = %x80-FF
+	 */
+
+	var fieldContentRegExp = /^[\u0009\u0020-\u007e\u0080-\u00ff]+$/;
+
+	/**
+	 * Parse a cookie header.
+	 *
+	 * Parse the given cookie header string into an object
+	 * The object has the various cookies as keys(names) => values
+	 *
+	 * @param {string} str
+	 * @param {object} [options]
+	 * @return {object}
+	 * @public
+	 */
+
+	function parse(str, options) {
+	  if (typeof str !== 'string') {
+	    throw new TypeError('argument str must be a string');
+	  }
+
+	  var obj = {}
+	  var opt = options || {};
+	  var pairs = str.split(/; */);
+	  var dec = opt.decode || decode;
+
+	  pairs.forEach(function(pair) {
+	    var eq_idx = pair.indexOf('=')
+
+	    // skip things that don't look like key=value
+	    if (eq_idx < 0) {
+	      return;
+	    }
+
+	    var key = pair.substr(0, eq_idx).trim()
+	    var val = pair.substr(++eq_idx, pair.length).trim();
+
+	    // quoted values
+	    if ('"' == val[0]) {
+	      val = val.slice(1, -1);
+	    }
+
+	    // only assign once
+	    if (undefined == obj[key]) {
+	      obj[key] = tryDecode(val, dec);
+	    }
+	  });
+
+	  return obj;
+	}
+
+	/**
+	 * Serialize data into a cookie header.
+	 *
+	 * Serialize the a name value pair into a cookie string suitable for
+	 * http headers. An optional options object specified cookie parameters.
+	 *
+	 * serialize('foo', 'bar', { httpOnly: true })
+	 *   => "foo=bar; httpOnly"
+	 *
+	 * @param {string} name
+	 * @param {string} val
+	 * @param {object} [options]
+	 * @return {string}
+	 * @public
+	 */
+
+	function serialize(name, val, options) {
+	  var opt = options || {};
+	  var enc = opt.encode || encode;
+
+	  if (!fieldContentRegExp.test(name)) {
+	    throw new TypeError('argument name is invalid');
+	  }
+
+	  var value = enc(val);
+
+	  if (value && !fieldContentRegExp.test(value)) {
+	    throw new TypeError('argument val is invalid');
+	  }
+
+	  var pairs = [name + '=' + value];
+
+	  if (null != opt.maxAge) {
+	    var maxAge = opt.maxAge - 0;
+	    if (isNaN(maxAge)) throw new Error('maxAge should be a Number');
+	    pairs.push('Max-Age=' + maxAge);
+	  }
+
+	  if (opt.domain) {
+	    if (!fieldContentRegExp.test(opt.domain)) {
+	      throw new TypeError('option domain is invalid');
+	    }
+
+	    pairs.push('Domain=' + opt.domain);
+	  }
+
+	  if (opt.path) {
+	    if (!fieldContentRegExp.test(opt.path)) {
+	      throw new TypeError('option path is invalid');
+	    }
+
+	    pairs.push('Path=' + opt.path);
+	  }
+
+	  if (opt.expires) pairs.push('Expires=' + opt.expires.toUTCString());
+	  if (opt.httpOnly) pairs.push('HttpOnly');
+	  if (opt.secure) pairs.push('Secure');
+
+	  return pairs.join('; ');
+	}
+
+	/**
+	 * Try decoding a string using a decoding function.
+	 *
+	 * @param {string} str
+	 * @param {function} decode
+	 * @private
+	 */
+
+	function tryDecode(str, decode) {
+	  try {
+	    return decode(str);
+	  } catch (e) {
+	    return str;
+	  }
+	}
+
 
 /***/ }
 /******/ ]);

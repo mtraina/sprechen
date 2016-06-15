@@ -37,6 +37,7 @@
     "extract-text-webpack-plugin": "^1.0.1",
     "foundation-sites": "^6.2.3",
     "node-sass": "^3.7.0",
+    "react-cookie": "^0.4.7",
     "sass-loader": "^3.2.0",
     "style-loader": "^0.13.1",
     "webpack": "^1.13.0"

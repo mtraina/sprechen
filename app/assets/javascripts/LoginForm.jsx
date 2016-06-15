@@ -1,6 +1,6 @@
 import React from "react";
-
-//require('../stylesheets/modules/login-form.scss');
+import cookie from 'react-cookie';
+import { hashHistory } from 'react-router';
 
 export default class List extends React.Component {
   constructor(props){
@@ -12,13 +12,19 @@ export default class List extends React.Component {
   login(e) {
     e.preventDefault();
     console.log("state:", this.state);
+    const auth = btoa(this.state.username + ":" + this.state.password);
+
     fetch("/auth", {
         method: "POST",
         headers: {
-          "Authorization": "Basic " + btoa(this.state.username + ":" + this.state.password)
+          "Authorization": "Basic " + auth
         }
       })
-      .then(r => console.log(r))
+      .then(r => {
+        console.log(r)
+        cookie.save("auth", auth, { path: "/" });
+        hashHistory.push("/");
+      })
       .catch(error => console.log("Request failed", error))
   }
 
