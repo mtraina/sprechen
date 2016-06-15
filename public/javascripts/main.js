@@ -1635,6 +1635,10 @@
 
 	var _reactRouter = __webpack_require__(10);
 
+	var _reactCookie = __webpack_require__(20);
+
+	var _reactCookie2 = _interopRequireDefault(_reactCookie);
+
 	var _CommentBox = __webpack_require__(11);
 
 	var _CommentBox2 = _interopRequireDefault(_CommentBox);
@@ -1654,19 +1658,33 @@
 	var Routes = function (_React$Component) {
 	  _inherits(Routes, _React$Component);
 
-	  function Routes() {
+	  function Routes(props) {
 	    _classCallCheck(this, Routes);
 
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Routes).apply(this, arguments));
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Routes).call(this, props));
+
+	    _this.requireAuth = _this.requireAuth.bind(_this);
+	    return _this;
 	  }
 
 	  _createClass(Routes, [{
+	    key: 'requireAuth',
+	    value: function requireAuth(nextState, replace) {
+	      var auth = _reactCookie2.default.load("auth");
+	      if (!auth) {
+	        replace({
+	          pathname: '/login',
+	          state: { nextPathname: nextState.location.pathname }
+	        });
+	      }
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
 	        _reactRouter.Router,
 	        { history: _reactRouter.hashHistory },
-	        _react2.default.createElement(_reactRouter.Route, { path: '/', component: _CommentBox2.default }),
+	        _react2.default.createElement(_reactRouter.Route, { path: '/', component: _CommentBox2.default, onEnter: this.requireAuth }),
 	        _react2.default.createElement(_reactRouter.Route, { path: '/login', component: _LoginForm2.default })
 	      );
 	    }
@@ -1698,6 +1716,8 @@
 	var _react = __webpack_require__(1);
 
 	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRouter = __webpack_require__(10);
 
 	var _List = __webpack_require__(12);
 
