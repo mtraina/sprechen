@@ -16,13 +16,15 @@ class SpeechController @Inject()(val wordService: WordService,
                                  val securedFactory: SecuredFactory,
                                  implicit val context: ExecutionContext) extends Controller {
 
-  def recognize = Action(parse.multipartFormData) { request =>
-    Logger.debug(s"got request=${request.body.toString}")
+  def recognize = securedFactory.secured {
+    Action(parse.multipartFormData) { request =>
+      Logger.debug(s"got request=${request.body.toString}")
 
-    request.body.file("speech") match {
-      case Some(f) => wordService.saveWord(f.ref.file)
-        Ok
-      case _ => BadRequest
+      request.body.file("speech") match {
+        case Some(f) => wordService.saveWord(f.ref.file)
+          Ok
+        case _ => BadRequest
+      }
     }
   }
 
