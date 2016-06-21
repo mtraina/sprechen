@@ -5,7 +5,7 @@ import Article from "./Article.jsx";
 export default class Main extends React.Component {
   render() {
     return <Layout>
-        <Article data={this.props.data} />
+        <Article data={this.props.route.data} />
       </Layout>;
   }
 }
