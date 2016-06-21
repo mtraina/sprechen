@@ -3,6 +3,7 @@ import { Router, Route, hashHistory } from 'react-router';
 import cookie from 'react-cookie';
 
 import CommentBox from './CommentBox.jsx';
+import Main from "./Main.jsx";
 import LoginForm from './LoginForm.jsx';
 
 export default class Routes extends React.Component {
@@ -12,18 +13,18 @@ export default class Routes extends React.Component {
   }
 
   requireAuth(nextState, replace) {
-      const auth = cookie.load("auth");
-      if (!auth) {
-        replace({
-          pathname: '/login',
-          state: { nextPathname: nextState.location.pathname }
-        })
-      }
+      // const auth = cookie.load("auth");
+      // if (!auth) {
+      //   replace({
+      //     pathname: '/login',
+      //     state: { nextPathname: nextState.location.pathname }
+      //   })
+      // }
   }
 
   render(){
     return <Router history={hashHistory}>
-      <Route path="/" component={CommentBox} onEnter={this.requireAuth}/>
+      <Route path="/" component={Main} onEnter={this.requireAuth}/>
       <Route path="/login" component={LoginForm} />
     </Router>;
   }

@@ -1635,15 +1635,19 @@
 
 	var _reactRouter = __webpack_require__(10);
 
-	var _reactCookie = __webpack_require__(20);
+	var _reactCookie = __webpack_require__(11);
 
 	var _reactCookie2 = _interopRequireDefault(_reactCookie);
 
-	var _CommentBox = __webpack_require__(11);
+	var _CommentBox = __webpack_require__(13);
 
 	var _CommentBox2 = _interopRequireDefault(_CommentBox);
 
-	var _LoginForm = __webpack_require__(19);
+	var _Main = __webpack_require__(22);
+
+	var _Main2 = _interopRequireDefault(_Main);
+
+	var _LoginForm = __webpack_require__(21);
 
 	var _LoginForm2 = _interopRequireDefault(_LoginForm);
 
@@ -1670,13 +1674,13 @@
 	  _createClass(Routes, [{
 	    key: 'requireAuth',
 	    value: function requireAuth(nextState, replace) {
-	      var auth = _reactCookie2.default.load("auth");
-	      if (!auth) {
-	        replace({
-	          pathname: '/login',
-	          state: { nextPathname: nextState.location.pathname }
-	        });
-	      }
+	      // const auth = cookie.load("auth");
+	      // if (!auth) {
+	      //   replace({
+	      //     pathname: '/login',
+	      //     state: { nextPathname: nextState.location.pathname }
+	      //   })
+	      // }
 	    }
 	  }, {
 	    key: 'render',
@@ -1684,7 +1688,7 @@
 	      return _react2.default.createElement(
 	        _reactRouter.Router,
 	        { history: _reactRouter.hashHistory },
-	        _react2.default.createElement(_reactRouter.Route, { path: '/', component: _CommentBox2.default, onEnter: this.requireAuth }),
+	        _react2.default.createElement(_reactRouter.Route, { path: '/', component: _Main2.default, onEnter: this.requireAuth }),
 	        _react2.default.createElement(_reactRouter.Route, { path: '/login', component: _LoginForm2.default })
 	      );
 	    }
@@ -1705,6 +1709,318 @@
 /* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var cookie = __webpack_require__(12);
+
+	if (typeof Object.assign != 'function') {
+	  Object.assign = function(target) {
+	    'use strict';
+	    if (target == null) {
+	      throw new TypeError('Cannot convert undefined or null to object');
+	    }
+
+	    target = Object(target);
+	    for (var index = 1; index < arguments.length; index++) {
+	      var source = arguments[index];
+	      if (source != null) {
+	        for (var key in source) {
+	          if (Object.prototype.hasOwnProperty.call(source, key)) {
+	            target[key] = source[key];
+	          }
+	        }
+	      }
+	    }
+	    return target;
+	  };
+	}
+
+	var _rawCookie = {};
+	var _res = undefined;
+
+	function _isResWritable() {
+	  if(!_res)
+	    return false
+	  if(_res.headersSent === true)
+	    return false
+	  return true
+	}
+
+	function load(name, doNotParse) {
+	  var cookies = (typeof document === 'undefined') ? _rawCookie : cookie.parse(document.cookie);
+	  var cookieVal = cookies && cookies[name];
+
+	  if (!doNotParse) {
+	    try {
+	      cookieVal = JSON.parse(cookieVal);
+	    } catch(e) {
+	      // Not serialized object
+	    }
+	  }
+
+	  return cookieVal;
+	}
+
+	function select(regex) {
+	  var cookies = (typeof document === 'undefined') ? _rawCookie : cookie.parse(document.cookie);
+	  if(!cookies)
+	    return {}
+	  if(!regex)
+	    return cookies
+	  return Object.keys(cookies)
+	    .reduce(function(accumulator, name) {
+	      if(!regex.test(name))
+	        return accumulator
+	      var newCookie = {}
+	      newCookie[name] = cookies[name]
+	      return Object.assign({}, accumulator, newCookie)
+	    }, {})
+	}
+
+	function save(name, val, opt) {
+	  _rawCookie[name] = val;
+
+	  // allow you to work with cookies as objects.
+	  if (typeof val === 'object') {
+	    _rawCookie[name] = JSON.stringify(val);
+	  }
+
+	  // Cookies only work in the browser
+	  if (typeof document !== 'undefined') {
+	    document.cookie = cookie.serialize(name, _rawCookie[name], opt);
+	  }
+
+	  if (_isResWritable() && _res.cookie) {
+	    _res.cookie(name, val, opt);
+	  }
+	}
+
+	function remove(name, opt) {
+	  delete _rawCookie[name];
+
+	  if (typeof opt === 'undefined') {
+	    opt = {};
+	  } else if (typeof opt === 'string') {
+	    // Will be deprecated in future versions
+	    opt = { path: opt };
+	  }
+
+	  if (typeof document !== 'undefined') {
+	    opt.expires = new Date(1970, 1, 1, 0, 0, 1);
+	    document.cookie = cookie.serialize(name, '', opt);
+	  }
+
+	  if (_isResWritable() && _res.clearCookie) {
+	    _res.clearCookie(name, opt);
+	  }
+	}
+
+	function setRawCookie(rawCookie) {
+	  if (rawCookie) {
+	    _rawCookie = cookie.parse(rawCookie);
+	  } else {
+	    _rawCookie = {};
+	  }
+	}
+
+	function plugToRequest(req, res) {
+	  if (req.cookie) {
+	    _rawCookie = req.cookie;
+	  } else if (req.cookies) {
+	    _rawCookie = req.cookies;
+	  } else if (req.headers && req.headers.cookie) {
+	    setRawCookie(req.headers.cookie);
+	  } else {
+	    _rawCookie = {};
+	  }
+
+	  _res = res;
+	  return function unplug() {
+	    _res = null;
+	    _rawCookie = {};
+	  }
+	}
+
+	var reactCookie = {
+	  load: load,
+	  select: select,
+	  save: save,
+	  remove: remove,
+	  setRawCookie: setRawCookie,
+	  plugToRequest: plugToRequest
+	};
+
+	if (typeof window !== 'undefined') {
+	  window['reactCookie'] = reactCookie;
+	}
+
+	module.exports = reactCookie;
+
+
+/***/ },
+/* 12 */
+/***/ function(module, exports) {
+
+	/*!
+	 * cookie
+	 * Copyright(c) 2012-2014 Roman Shtylman
+	 * Copyright(c) 2015 Douglas Christopher Wilson
+	 * MIT Licensed
+	 */
+
+	/**
+	 * Module exports.
+	 * @public
+	 */
+
+	exports.parse = parse;
+	exports.serialize = serialize;
+
+	/**
+	 * Module variables.
+	 * @private
+	 */
+
+	var decode = decodeURIComponent;
+	var encode = encodeURIComponent;
+
+	/**
+	 * RegExp to match field-content in RFC 7230 sec 3.2
+	 *
+	 * field-content = field-vchar [ 1*( SP / HTAB ) field-vchar ]
+	 * field-vchar   = VCHAR / obs-text
+	 * obs-text      = %x80-FF
+	 */
+
+	var fieldContentRegExp = /^[\u0009\u0020-\u007e\u0080-\u00ff]+$/;
+
+	/**
+	 * Parse a cookie header.
+	 *
+	 * Parse the given cookie header string into an object
+	 * The object has the various cookies as keys(names) => values
+	 *
+	 * @param {string} str
+	 * @param {object} [options]
+	 * @return {object}
+	 * @public
+	 */
+
+	function parse(str, options) {
+	  if (typeof str !== 'string') {
+	    throw new TypeError('argument str must be a string');
+	  }
+
+	  var obj = {}
+	  var opt = options || {};
+	  var pairs = str.split(/; */);
+	  var dec = opt.decode || decode;
+
+	  pairs.forEach(function(pair) {
+	    var eq_idx = pair.indexOf('=')
+
+	    // skip things that don't look like key=value
+	    if (eq_idx < 0) {
+	      return;
+	    }
+
+	    var key = pair.substr(0, eq_idx).trim()
+	    var val = pair.substr(++eq_idx, pair.length).trim();
+
+	    // quoted values
+	    if ('"' == val[0]) {
+	      val = val.slice(1, -1);
+	    }
+
+	    // only assign once
+	    if (undefined == obj[key]) {
+	      obj[key] = tryDecode(val, dec);
+	    }
+	  });
+
+	  return obj;
+	}
+
+	/**
+	 * Serialize data into a cookie header.
+	 *
+	 * Serialize the a name value pair into a cookie string suitable for
+	 * http headers. An optional options object specified cookie parameters.
+	 *
+	 * serialize('foo', 'bar', { httpOnly: true })
+	 *   => "foo=bar; httpOnly"
+	 *
+	 * @param {string} name
+	 * @param {string} val
+	 * @param {object} [options]
+	 * @return {string}
+	 * @public
+	 */
+
+	function serialize(name, val, options) {
+	  var opt = options || {};
+	  var enc = opt.encode || encode;
+
+	  if (!fieldContentRegExp.test(name)) {
+	    throw new TypeError('argument name is invalid');
+	  }
+
+	  var value = enc(val);
+
+	  if (value && !fieldContentRegExp.test(value)) {
+	    throw new TypeError('argument val is invalid');
+	  }
+
+	  var pairs = [name + '=' + value];
+
+	  if (null != opt.maxAge) {
+	    var maxAge = opt.maxAge - 0;
+	    if (isNaN(maxAge)) throw new Error('maxAge should be a Number');
+	    pairs.push('Max-Age=' + maxAge);
+	  }
+
+	  if (opt.domain) {
+	    if (!fieldContentRegExp.test(opt.domain)) {
+	      throw new TypeError('option domain is invalid');
+	    }
+
+	    pairs.push('Domain=' + opt.domain);
+	  }
+
+	  if (opt.path) {
+	    if (!fieldContentRegExp.test(opt.path)) {
+	      throw new TypeError('option path is invalid');
+	    }
+
+	    pairs.push('Path=' + opt.path);
+	  }
+
+	  if (opt.expires) pairs.push('Expires=' + opt.expires.toUTCString());
+	  if (opt.httpOnly) pairs.push('HttpOnly');
+	  if (opt.secure) pairs.push('Secure');
+
+	  return pairs.join('; ');
+	}
+
+	/**
+	 * Try decoding a string using a decoding function.
+	 *
+	 * @param {string} str
+	 * @param {function} decode
+	 * @private
+	 */
+
+	function tryDecode(str, decode) {
+	  try {
+	    return decode(str);
+	  } catch (e) {
+	    return str;
+	  }
+	}
+
+
+/***/ },
+/* 13 */
+/***/ function(module, exports, __webpack_require__) {
+
 	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
@@ -1719,15 +2035,15 @@
 
 	var _reactRouter = __webpack_require__(10);
 
-	var _List = __webpack_require__(12);
+	var _List = __webpack_require__(14);
 
 	var _List2 = _interopRequireDefault(_List);
 
-	var _RecordUploader = __webpack_require__(13);
+	var _RecordUploader = __webpack_require__(15);
 
 	var _RecordUploader2 = _interopRequireDefault(_RecordUploader);
 
-	var _VoiceRecorder = __webpack_require__(18);
+	var _VoiceRecorder = __webpack_require__(20);
 
 	var _VoiceRecorder2 = _interopRequireDefault(_VoiceRecorder);
 
@@ -1792,7 +2108,7 @@
 	;
 
 /***/ },
-/* 12 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1875,7 +2191,7 @@
 	exports.default = List;
 
 /***/ },
-/* 13 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1890,7 +2206,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _recorderjs = __webpack_require__(14);
+	var _recorderjs = __webpack_require__(16);
 
 	var _recorderjs2 = _interopRequireDefault(_recorderjs);
 
@@ -1950,15 +2266,15 @@
 	exports.default = RecordUploader;
 
 /***/ },
-/* 14 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
-	module.exports = __webpack_require__(15).Recorder;
+	module.exports = __webpack_require__(17).Recorder;
 
 /***/ },
-/* 15 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1970,7 +2286,7 @@
 	});
 	exports.Recorder = undefined;
 
-	var _inlineWorker = __webpack_require__(16);
+	var _inlineWorker = __webpack_require__(18);
 
 	var _inlineWorker2 = _interopRequireDefault(_inlineWorker);
 
@@ -2241,15 +2557,15 @@
 	exports.default = Recorder;
 
 /***/ },
-/* 16 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
-	module.exports = __webpack_require__(17);
+	module.exports = __webpack_require__(19);
 
 /***/ },
-/* 17 */
+/* 19 */
 /***/ function(module, exports) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
@@ -2304,7 +2620,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 18 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2319,7 +2635,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _recorderjs = __webpack_require__(14);
+	var _recorderjs = __webpack_require__(16);
 
 	var _recorderjs2 = _interopRequireDefault(_recorderjs);
 
@@ -2427,7 +2743,7 @@
 	exports.default = VoiceRecorder;
 
 /***/ },
-/* 19 */
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2442,7 +2758,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactCookie = __webpack_require__(20);
+	var _reactCookie = __webpack_require__(11);
 
 	var _reactCookie2 = _interopRequireDefault(_reactCookie);
 
@@ -2555,316 +2871,338 @@
 	exports.default = List;
 
 /***/ },
-/* 20 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var cookie = __webpack_require__(21);
+	"use strict";
 
-	if (typeof Object.assign != 'function') {
-	  Object.assign = function(target) {
-	    'use strict';
-	    if (target == null) {
-	      throw new TypeError('Cannot convert undefined or null to object');
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _Layout = __webpack_require__(23);
+
+	var _Layout2 = _interopRequireDefault(_Layout);
+
+	var _Article = __webpack_require__(24);
+
+	var _Article2 = _interopRequireDefault(_Article);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Main = function (_React$Component) {
+	  _inherits(Main, _React$Component);
+
+	  function Main() {
+	    _classCallCheck(this, Main);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Main).apply(this, arguments));
+	  }
+
+	  _createClass(Main, [{
+	    key: "render",
+	    value: function render() {
+	      return _react2.default.createElement(
+	        _Layout2.default,
+	        null,
+	        _react2.default.createElement(_Article2.default, { data: this.props.data })
+	      );
 	    }
+	  }]);
 
-	    target = Object(target);
-	    for (var index = 1; index < arguments.length; index++) {
-	      var source = arguments[index];
-	      if (source != null) {
-	        for (var key in source) {
-	          if (Object.prototype.hasOwnProperty.call(source, key)) {
-	            target[key] = source[key];
-	          }
-	        }
-	      }
-	    }
-	    return target;
-	  };
-	}
+	  return Main;
+	}(_react2.default.Component);
 
-	var _rawCookie = {};
-	var _res = undefined;
-
-	function _isResWritable() {
-	  if(!_res)
-	    return false
-	  if(_res.headersSent === true)
-	    return false
-	  return true
-	}
-
-	function load(name, doNotParse) {
-	  var cookies = (typeof document === 'undefined') ? _rawCookie : cookie.parse(document.cookie);
-	  var cookieVal = cookies && cookies[name];
-
-	  if (!doNotParse) {
-	    try {
-	      cookieVal = JSON.parse(cookieVal);
-	    } catch(e) {
-	      // Not serialized object
-	    }
-	  }
-
-	  return cookieVal;
-	}
-
-	function select(regex) {
-	  var cookies = (typeof document === 'undefined') ? _rawCookie : cookie.parse(document.cookie);
-	  if(!cookies)
-	    return {}
-	  if(!regex)
-	    return cookies
-	  return Object.keys(cookies)
-	    .reduce(function(accumulator, name) {
-	      if(!regex.test(name))
-	        return accumulator
-	      var newCookie = {}
-	      newCookie[name] = cookies[name]
-	      return Object.assign({}, accumulator, newCookie)
-	    }, {})
-	}
-
-	function save(name, val, opt) {
-	  _rawCookie[name] = val;
-
-	  // allow you to work with cookies as objects.
-	  if (typeof val === 'object') {
-	    _rawCookie[name] = JSON.stringify(val);
-	  }
-
-	  // Cookies only work in the browser
-	  if (typeof document !== 'undefined') {
-	    document.cookie = cookie.serialize(name, _rawCookie[name], opt);
-	  }
-
-	  if (_isResWritable() && _res.cookie) {
-	    _res.cookie(name, val, opt);
-	  }
-	}
-
-	function remove(name, opt) {
-	  delete _rawCookie[name];
-
-	  if (typeof opt === 'undefined') {
-	    opt = {};
-	  } else if (typeof opt === 'string') {
-	    // Will be deprecated in future versions
-	    opt = { path: opt };
-	  }
-
-	  if (typeof document !== 'undefined') {
-	    opt.expires = new Date(1970, 1, 1, 0, 0, 1);
-	    document.cookie = cookie.serialize(name, '', opt);
-	  }
-
-	  if (_isResWritable() && _res.clearCookie) {
-	    _res.clearCookie(name, opt);
-	  }
-	}
-
-	function setRawCookie(rawCookie) {
-	  if (rawCookie) {
-	    _rawCookie = cookie.parse(rawCookie);
-	  } else {
-	    _rawCookie = {};
-	  }
-	}
-
-	function plugToRequest(req, res) {
-	  if (req.cookie) {
-	    _rawCookie = req.cookie;
-	  } else if (req.cookies) {
-	    _rawCookie = req.cookies;
-	  } else if (req.headers && req.headers.cookie) {
-	    setRawCookie(req.headers.cookie);
-	  } else {
-	    _rawCookie = {};
-	  }
-
-	  _res = res;
-	  return function unplug() {
-	    _res = null;
-	    _rawCookie = {};
-	  }
-	}
-
-	var reactCookie = {
-	  load: load,
-	  select: select,
-	  save: save,
-	  remove: remove,
-	  setRawCookie: setRawCookie,
-	  plugToRequest: plugToRequest
-	};
-
-	if (typeof window !== 'undefined') {
-	  window['reactCookie'] = reactCookie;
-	}
-
-	module.exports = reactCookie;
-
+	exports.default = Main;
 
 /***/ },
-/* 21 */
-/***/ function(module, exports) {
+/* 23 */
+/***/ function(module, exports, __webpack_require__) {
 
-	/*!
-	 * cookie
-	 * Copyright(c) 2012-2014 Roman Shtylman
-	 * Copyright(c) 2015 Douglas Christopher Wilson
-	 * MIT Licensed
-	 */
+	"use strict";
 
-	/**
-	 * Module exports.
-	 * @public
-	 */
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
 
-	exports.parse = parse;
-	exports.serialize = serialize;
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	/**
-	 * Module variables.
-	 * @private
-	 */
+	var _react = __webpack_require__(1);
 
-	var decode = decodeURIComponent;
-	var encode = encodeURIComponent;
+	var _react2 = _interopRequireDefault(_react);
 
-	/**
-	 * RegExp to match field-content in RFC 7230 sec 3.2
-	 *
-	 * field-content = field-vchar [ 1*( SP / HTAB ) field-vchar ]
-	 * field-vchar   = VCHAR / obs-text
-	 * obs-text      = %x80-FF
-	 */
+	var _Nav = __webpack_require__(25);
 
-	var fieldContentRegExp = /^[\u0009\u0020-\u007e\u0080-\u00ff]+$/;
+	var _Nav2 = _interopRequireDefault(_Nav);
 
-	/**
-	 * Parse a cookie header.
-	 *
-	 * Parse the given cookie header string into an object
-	 * The object has the various cookies as keys(names) => values
-	 *
-	 * @param {string} str
-	 * @param {object} [options]
-	 * @return {object}
-	 * @public
-	 */
+	var _Footer = __webpack_require__(26);
 
-	function parse(str, options) {
-	  if (typeof str !== 'string') {
-	    throw new TypeError('argument str must be a string');
+	var _Footer2 = _interopRequireDefault(_Footer);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Layout = function (_React$Component) {
+	  _inherits(Layout, _React$Component);
+
+	  function Layout() {
+	    _classCallCheck(this, Layout);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Layout).apply(this, arguments));
 	  }
 
-	  var obj = {}
-	  var opt = options || {};
-	  var pairs = str.split(/; */);
-	  var dec = opt.decode || decode;
-
-	  pairs.forEach(function(pair) {
-	    var eq_idx = pair.indexOf('=')
-
-	    // skip things that don't look like key=value
-	    if (eq_idx < 0) {
-	      return;
+	  _createClass(Layout, [{
+	    key: "render",
+	    value: function render() {
+	      return _react2.default.createElement(
+	        "div",
+	        null,
+	        _react2.default.createElement(_Nav2.default, null),
+	        _react2.default.createElement(
+	          "main",
+	          null,
+	          this.props.children
+	        ),
+	        _react2.default.createElement(_Footer2.default, null)
+	      );
 	    }
+	  }]);
 
-	    var key = pair.substr(0, eq_idx).trim()
-	    var val = pair.substr(++eq_idx, pair.length).trim();
+	  return Layout;
+	}(_react2.default.Component);
 
-	    // quoted values
-	    if ('"' == val[0]) {
-	      val = val.slice(1, -1);
+	exports.default = Layout;
+
+/***/ },
+/* 24 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Article = function (_React$Component) {
+	  _inherits(Article, _React$Component);
+
+	  function Article() {
+	    _classCallCheck(this, Article);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Article).apply(this, arguments));
+	  }
+
+	  _createClass(Article, [{
+	    key: "render",
+	    value: function render() {
+	      var body = this.props.data.body.map(function (part) {
+	        return _react2.default.createElement(
+	          "p",
+	          null,
+	          part
+	        );
+	      });
+	      return _react2.default.createElement(
+	        "article",
+	        null,
+	        _react2.default.createElement(
+	          "h1",
+	          null,
+	          this.props.data.title
+	        ),
+	        body
+	      );
 	    }
+	  }]);
 
-	    // only assign once
-	    if (undefined == obj[key]) {
-	      obj[key] = tryDecode(val, dec);
+	  return Article;
+	}(_react2.default.Component);
+
+	exports.default = Article;
+
+/***/ },
+/* 25 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var NavLink = function (_React$Component) {
+	  _inherits(NavLink, _React$Component);
+
+	  function NavLink() {
+	    _classCallCheck(this, NavLink);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(NavLink).apply(this, arguments));
+	  }
+
+	  _createClass(NavLink, [{
+	    key: "render",
+	    value: function render() {
+	      return _react2.default.createElement(
+	        "a",
+	        { href: "javascript:void(0)" },
+	        this.props.children
+	      );
 	    }
-	  });
+	  }]);
 
-	  return obj;
-	}
+	  return NavLink;
+	}(_react2.default.Component);
 
-	/**
-	 * Serialize data into a cookie header.
-	 *
-	 * Serialize the a name value pair into a cookie string suitable for
-	 * http headers. An optional options object specified cookie parameters.
-	 *
-	 * serialize('foo', 'bar', { httpOnly: true })
-	 *   => "foo=bar; httpOnly"
-	 *
-	 * @param {string} name
-	 * @param {string} val
-	 * @param {object} [options]
-	 * @return {string}
-	 * @public
-	 */
+	exports.default = NavLink;
 
-	function serialize(name, val, options) {
-	  var opt = options || {};
-	  var enc = opt.encode || encode;
+	var Nav = function (_React$Component2) {
+	  _inherits(Nav, _React$Component2);
 
-	  if (!fieldContentRegExp.test(name)) {
-	    throw new TypeError('argument name is invalid');
+	  function Nav() {
+	    _classCallCheck(this, Nav);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Nav).apply(this, arguments));
 	  }
 
-	  var value = enc(val);
-
-	  if (value && !fieldContentRegExp.test(value)) {
-	    throw new TypeError('argument val is invalid');
-	  }
-
-	  var pairs = [name + '=' + value];
-
-	  if (null != opt.maxAge) {
-	    var maxAge = opt.maxAge - 0;
-	    if (isNaN(maxAge)) throw new Error('maxAge should be a Number');
-	    pairs.push('Max-Age=' + maxAge);
-	  }
-
-	  if (opt.domain) {
-	    if (!fieldContentRegExp.test(opt.domain)) {
-	      throw new TypeError('option domain is invalid');
+	  _createClass(Nav, [{
+	    key: "render",
+	    value: function render() {
+	      return _react2.default.createElement(
+	        "nav",
+	        null,
+	        _react2.default.createElement(
+	          "ul",
+	          null,
+	          _react2.default.createElement(
+	            "li",
+	            null,
+	            _react2.default.createElement(
+	              NavLink,
+	              null,
+	              "Home"
+	            )
+	          ),
+	          _react2.default.createElement(
+	            "li",
+	            null,
+	            _react2.default.createElement(
+	              NavLink,
+	              null,
+	              "Articles"
+	            )
+	          ),
+	          _react2.default.createElement(
+	            "li",
+	            null,
+	            _react2.default.createElement(
+	              NavLink,
+	              null,
+	              "About Us"
+	            )
+	          )
+	        )
+	      );
 	    }
+	  }]);
 
-	    pairs.push('Domain=' + opt.domain);
+	  return Nav;
+	}(_react2.default.Component);
+
+	exports.default = Nav;
+
+/***/ },
+/* 26 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Footer = function (_React$Component) {
+	  _inherits(Footer, _React$Component);
+
+	  function Footer() {
+	    _classCallCheck(this, Footer);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Footer).apply(this, arguments));
 	  }
 
-	  if (opt.path) {
-	    if (!fieldContentRegExp.test(opt.path)) {
-	      throw new TypeError('option path is invalid');
+	  _createClass(Footer, [{
+	    key: "render",
+	    value: function render() {
+	      return _react2.default.createElement(
+	        "footer",
+	        null,
+	        "Copyright 2016"
+	      );
 	    }
+	  }]);
 
-	    pairs.push('Path=' + opt.path);
-	  }
+	  return Footer;
+	}(_react2.default.Component);
 
-	  if (opt.expires) pairs.push('Expires=' + opt.expires.toUTCString());
-	  if (opt.httpOnly) pairs.push('HttpOnly');
-	  if (opt.secure) pairs.push('Secure');
-
-	  return pairs.join('; ');
-	}
-
-	/**
-	 * Try decoding a string using a decoding function.
-	 *
-	 * @param {string} str
-	 * @param {function} decode
-	 * @private
-	 */
-
-	function tryDecode(str, decode) {
-	  try {
-	    return decode(str);
-	  } catch (e) {
-	    return str;
-	  }
-	}
-
+	exports.default = Footer;
 
 /***/ }
 /******/ ]);
