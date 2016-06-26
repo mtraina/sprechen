@@ -1,8 +1,8 @@
 import React from "react";
-import { hashHistory } from 'react-router';
+//import { hashHistory } from 'react-router';
 import List from "./List.jsx";
-import RecordUploader from "./RecordUploader.jsx";
-import VoiceRecorder from "./VoiceRecorder.jsx";
+import RecordUploader from "../record/RecordUploader.jsx";
+import VoiceRecorder from "../record/VoiceRecorder.jsx";
 
 export default class CommentBox extends React.Component {
   constructor(props) {

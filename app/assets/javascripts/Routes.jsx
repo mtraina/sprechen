@@ -2,9 +2,8 @@ import React from 'react';
 import { Router, Route, hashHistory } from 'react-router';
 import cookie from 'react-cookie';
 
-import CommentBox from './CommentBox.jsx';
-import Main from "./Main.jsx";
-import LoginForm from './LoginForm.jsx';
+import Main from "./layout/Main.jsx";
+import LoginForm from './auth/LoginForm.jsx';
 
 export default class Routes extends React.Component {
   constructor(props) {

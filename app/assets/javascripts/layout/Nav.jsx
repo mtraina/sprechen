@@ -1,6 +1,6 @@
 import React from "react";
 
-export default class NavLink extends React.Component {
+class NavLink extends React.Component {
     render() {
       return <a href="javascript:void(0)">{this.props.children}</a>;
     }

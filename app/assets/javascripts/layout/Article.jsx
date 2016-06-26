@@ -1,4 +1,5 @@
 import React from "react";
+import CommentBox from "../dictionary/CommentBox.jsx";
 
 export default class Article extends React.Component {
   constructor(props){
@@ -7,10 +8,8 @@ export default class Article extends React.Component {
   }
 
   render() {
-    const body = this.props.data.body.map((p, i) => <p key={i}>{p}</p>);
     return <article>
-      <h1>{this.props.data.title}</h1>
-      {body}
+      <CommentBox/>
     </article>;
   }
 }
