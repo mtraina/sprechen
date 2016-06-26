@@ -32,11 +32,11 @@ const config = {
       })
   ],
 
-  externals: {
-      "react": "React",
-      "react-dom": "ReactDOM",
-      "react-router": "ReactRouter"
-  }
+  // externals: {
+  //     "react": "React",
+  //     "react-dom": "ReactDOM",
+  //     "react-router": "ReactRouter"
+  // }
 };
 
 module.exports = config

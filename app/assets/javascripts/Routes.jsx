@@ -15,12 +15,12 @@ export default class Routes extends React.Component {
 
   requireAuth(nextState, replace) {
       const auth = cookie.load("auth");
-      if (!auth) {
-        replace({
-          pathname: '/login',
-          state: { nextPathname: nextState.location.pathname }
-        })
-      }
+      // if (!auth) {
+      //   replace({
+      //     pathname: '/login',
+      //     state: { nextPathname: nextState.location.pathname }
+      //   })
+      // }
   }
 
   render(){
