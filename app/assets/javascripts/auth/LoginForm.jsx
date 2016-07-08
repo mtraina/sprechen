@@ -33,23 +33,19 @@ export default class List extends React.Component {
   }
 
   render() {
-    return <div class="row">
-      <div className="medium-6 medium-centered large-4 large-centered columns">
-        <form onSubmit={this.login}>
-          <div className="row column log-in-form">
-            <h4 className="text-center">Log in with you email account</h4>
-             <label>Username
-              <input type="text" placeholder="Username" onChange={e => this.updateState("username", e.target.value)}/>
-            </label>
-            <label>Password
-              <input type="text" placeholder="Password" onChange={e => this.updateState("password", e.target.value)}/>
-            </label>
-            {/* <input id="show-password" type="checkbox"><label for="show-password">Show password</label></input> */}
-            <input type="submit" className="button expanded" value="Log In"/>
-            <p className="text-center"><a href="#">Forgot your password?</a></p>
-          </div>
-        </form>
-      </div>
-    </div>;
+    return <div className="container">
+        <div className="login">
+          <form onSubmit={this.login}>
+            <div className="input-container">
+              <h4 className="text-center">Log in with you email account</h4>
+                <p><input type="text" placeholder="Username" onChange={e => this.updateState("username", e.target.value)}/></p>
+                <p><input type="text" placeholder="Password" onChange={e => this.updateState("password", e.target.value)}/></p>
+                {/* <input id="show-password" type="checkbox"><label for="show-password">Show password</label></input> */}
+                <input type="submit" className="button expanded" value="Log In"/>
+                <p className="text-center"><a href="#">Forgot your password?</a></p>
+              </div>
+          </form>
+        </div>
+      </div>;
   }
 }
