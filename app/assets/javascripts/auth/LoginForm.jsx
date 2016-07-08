@@ -36,14 +36,12 @@ export default class List extends React.Component {
     return <div className="container">
         <div className="login">
           <form onSubmit={this.login}>
-            <div className="input-container">
-              <h4 className="text-center">Log in with you email account</h4>
-                <p><input type="text" placeholder="Username" onChange={e => this.updateState("username", e.target.value)}/></p>
-                <p><input type="text" placeholder="Password" onChange={e => this.updateState("password", e.target.value)}/></p>
-                {/* <input id="show-password" type="checkbox"><label for="show-password">Show password</label></input> */}
-                <input type="submit" className="button expanded" value="Log In"/>
-                <p className="text-center"><a href="#">Forgot your password?</a></p>
-              </div>
+            <h1 className="text-center">Log in with you email account</h1>
+            <p><input type="text" placeholder="Username" onChange={e => this.updateState("username", e.target.value)}/></p>
+            <p><input type="text" placeholder="Password" onChange={e => this.updateState("password", e.target.value)}/></p>
+            {/* <input id="show-password" type="checkbox"><label for="show-password">Show password</label></input> */}
+            <p className="submit"><input type="submit" className="button expanded" value="Log In"/></p>
+            <p className="text-center"><a href="#">Forgot your password?</a></p>
           </form>
         </div>
       </div>;
