@@ -11,8 +11,8 @@ export default class Nav extends React.Component {
     return <nav>
         <ul>
           <li><NavLink>Home</NavLink></li>
-          <li><NavLink>Articles</NavLink></li>
-          <li><NavLink>About Us</NavLink></li>
+          <li><NavLink>Record</NavLink></li>
+          <li><NavLink>Dictionary</NavLink></li>
         </ul>
       </nav>;
   }
