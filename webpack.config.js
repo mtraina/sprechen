@@ -26,11 +26,11 @@ const config = {
     ]
   },
 
-  // plugins: [
-  //     new ExtractTextPlugin('stylesheets/[name].css', {
-  //         allChunks: true
-  //     })
-  // ],
+  plugins: [
+      new ExtractTextPlugin('stylesheets/[name].css', {
+          allChunks: true
+      })
+  ],
 
   // externals: {
   //     "react": "React",

@@ -1,32 +1,27 @@
-/*@import url(https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,700italic,700);
-
-body { font-family: 'Open Sans', sans-serif; font-size: 16px; font-weight: 300; color: #555; margin: 0; padding: 0; }*/
-
 .container {
   margin: 50px auto;
-  width: 640px;
-}
+  width: 640px; }
+
 .login:before {
-  box-sizing: border-box;
-}
+  box-sizing: border-box; }
+
 .login {
   position: relative;
   margin: 0 auto;
   padding: 20px 20px 0 20px;
-  width: 20em;
-}
+  width: 20em; }
+
 .login h1 {
   margin: -20px -20px 21px;
   line-height: 40px;
   font-size: 20px;
   font-weight: bold;
   text-align: center;
-  text-shadow: 0 1px white;
-}
+  text-shadow: 0 1px white; }
+
 .login input {
   border: 1px solid #c6c7cc;
   border-radius: 5px;
   font: 14px/1.4 "Helvetica Neue", Helvetica, Arial, sans-serif;
   overflow: hidden;
-  width: 100%;
-}
+  width: 100%; }
