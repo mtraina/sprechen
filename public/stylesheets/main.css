@@ -13,7 +13,7 @@ body { font-family: 'Open Sans', sans-serif; font-size: 16px; font-weight: 300; 
   position: relative;
   margin: 0 auto;
   padding: 20px 20px 0 20px;
-  width: 310px;
+  width: 20em;
 }
 .login h1 {
   margin: -20px -20px 21px;
@@ -28,5 +28,5 @@ body { font-family: 'Open Sans', sans-serif; font-size: 16px; font-weight: 300; 
   border-radius: 5px;
   font: 14px/1.4 "Helvetica Neue", Helvetica, Arial, sans-serif;
   overflow: hidden;
-  width: 20em;
+  width: 100%;
 }
