@@ -16,6 +16,18 @@ nav li {
     nav li a:hover {
       background-color: #111; }
 
+footer {
+  display: block;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  border-style: solid; }
+  footer h1 {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    margin: 0 0 0 0; }
+
 .container {
   margin: 50px auto;
   width: 640px; }

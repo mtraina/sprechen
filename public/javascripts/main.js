@@ -27999,7 +27999,11 @@
 	      return _react2.default.createElement(
 	        "footer",
 	        null,
-	        "Copyright 2016"
+	        _react2.default.createElement(
+	          "h1",
+	          null,
+	          "Sprechen"
+	        )
 	      );
 	    }
 	  }]);
