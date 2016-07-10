@@ -10,18 +10,16 @@
   margin: 0 auto;
   padding: 20px 20px 0 20px;
   width: 20em; }
-
-.login h1 {
-  margin: -20px -20px 21px;
-  line-height: 40px;
-  font-size: 20px;
-  font-weight: bold;
-  text-align: center;
-  text-shadow: 0 1px white; }
-
-.login input {
-  border: 1px solid #c6c7cc;
-  border-radius: 5px;
-  font: 14px/1.4 "Helvetica Neue", Helvetica, Arial, sans-serif;
-  overflow: hidden;
-  width: 100%; }
+  .login h1 {
+    margin: -20px -20px 21px;
+    line-height: 40px;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    text-shadow: 0 1px white; }
+  .login input {
+    border: 1px solid #c6c7cc;
+    border-radius: 5px;
+    font: 14px/1.4 "Helvetica Neue", Helvetica, Arial, sans-serif;
+    overflow: hidden;
+    width: 100%; }
