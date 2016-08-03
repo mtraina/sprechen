@@ -27,7 +27,9 @@ class WordServiceImpl @Inject()(val client: SpeechClient,
   override def saveWord(speech: File): Future[WSResponse] = {
     val response = client.post(speech)
     response.map { r =>
-      val text = extractRecognition(r)
+      Logger.debug(s"got the recognition:{${r.json}")
+      val text = (r.json \ "header" \ "lexical").as[String]
+      Logger.debug(s"got the lexical: $text")
 
       translateClient.translate(text).map { r =>
         Logger.debug(s"got the translation:{${r.json}}")
@@ -37,18 +39,5 @@ class WordServiceImpl @Inject()(val client: SpeechClient,
       }
     }
     response
-  }
-
-  def extractRecognition(r: WSResponse): String = {
-    val guesses = r.json \\ "lexical"
-    val guess = guesses.head.asInstanceOf[JsString]
-    Logger.debug(s"got the recognition:{$guess}")
-    adaptText(guess.value)
-  }
-
-  def adaptText(text: String): String = {
-    if(text.lastIndexOf(" ") == text.length - 1)
-      text.substring(0, text.length - 1)
-    else text
   }
 }
