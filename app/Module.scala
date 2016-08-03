@@ -1,9 +1,9 @@
 import com.google.inject.AbstractModule
-import controllers.action.{SecuredFactoryImpl, SecuredFactory}
-import persistence.{UserRepositoryImpl, UserRepository, WordRepositoryImpl, WordRepository}
+import controllers.action.{SecuredFactory, SecuredFactoryImpl}
+import persistence.{UserRepository, UserRepositoryImpl, WordRepository, WordRepositoryImpl}
 import services._
-import session.{SessionRepositoryImpl, SessionRepository}
-import ws.{TranslateClientImpl, TranslateClient, SpeechClient, SpeechClientImpl}
+import session.{SessionRepository, SessionRepositoryImpl}
+import ws._
 
 /**
  * This class is a Guice module that tells Guice how to bind several
@@ -19,6 +19,7 @@ class Module extends AbstractModule {
 
   override def configure() = {
     // ws clients
+    bind(classOf[SpeechAuthClient]).to(classOf[SpeechAuthClientImpl])
     bind(classOf[SpeechClient]).to(classOf[SpeechClientImpl])
     bind(classOf[TranslateClient]).to(classOf[TranslateClientImpl])
 

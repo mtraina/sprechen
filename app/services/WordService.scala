@@ -40,7 +40,7 @@ class WordServiceImpl @Inject()(val client: SpeechClient,
   }
 
   def extractRecognition(r: WSResponse): String = {
-    val guesses = r.json \\ "transcript"
+    val guesses = r.json \\ "lexical"
     val guess = guesses.head.asInstanceOf[JsString]
     Logger.debug(s"got the recognition:{$guess}")
     adaptText(guess.value)
