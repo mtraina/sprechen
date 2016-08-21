@@ -21828,12 +21828,12 @@
 	    key: 'requireAuth',
 	    value: function requireAuth(nextState, replace) {
 	      var auth = _reactCookie2.default.load("auth");
-	      // if (!auth) {
-	      //   replace({
-	      //     pathname: '/login',
-	      //     state: { nextPathname: nextState.location.pathname }
-	      //   })
-	      // }
+	      if (!auth) {
+	        replace({
+	          pathname: '/login',
+	          state: { nextPathname: nextState.location.pathname }
+	        });
+	      }
 	    }
 	  }, {
 	    key: 'render',
@@ -28851,8 +28851,12 @@
 	        }
 	      }).then(function (r) {
 	        console.log(r);
-	        _reactCookie2.default.save("auth", auth, { path: "/" });
-	        _reactRouter.hashHistory.push("/");
+	        if (r.ok) {
+	          _reactCookie2.default.save("auth", auth, { path: "/" });
+	          _reactRouter.hashHistory.push("/");
+	        } else {
+	          console.log("Request failed", r.status);
+	        }
 	      }).catch(function (error) {
 	        return console.log("Request failed", error);
 	      });
@@ -28891,7 +28895,7 @@
 	            _react2.default.createElement(
 	              'p',
 	              null,
-	              _react2.default.createElement('input', { type: 'text', placeholder: 'Password', onChange: function onChange(e) {
+	              _react2.default.createElement('input', { type: 'password', placeholder: 'Password', onChange: function onChange(e) {
 	                  return _this2.updateState("password", e.target.value);
 	                } })
 	            ),

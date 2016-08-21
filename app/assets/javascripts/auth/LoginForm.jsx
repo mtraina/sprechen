@@ -22,10 +22,14 @@ export default class List extends React.Component {
       })
       .then(r => {
         console.log(r)
-        cookie.save("auth", auth, { path: "/" });
-        hashHistory.push("/");
-      })
-      .catch(error => console.log("Request failed", error))
+        if(r.ok){
+          cookie.save("auth", auth, { path: "/" });
+          hashHistory.push("/");
+        }
+        else {
+          console.log("Request failed", r.status);
+        }
+      }).catch(error => console.log("Request failed", error))
   }
 
   updateState(k, v) {
@@ -38,7 +42,7 @@ export default class List extends React.Component {
           <h1>Log in with you email account</h1>
           <form onSubmit={this.login}>
             <p><input type="text" placeholder="Username" onChange={e => this.updateState("username", e.target.value)}/></p>
-            <p><input type="text" placeholder="Password" onChange={e => this.updateState("password", e.target.value)}/></p>
+            <p><input type="password" placeholder="Password" onChange={e => this.updateState("password", e.target.value)}/></p>
             {/* <input id="show-password" type="checkbox"><label for="show-password">Show password</label></input> */}
             <p><input type="submit" className="button expanded" value="Log In"/></p>
             <p><a href="#">Forgot your password?</a></p>
