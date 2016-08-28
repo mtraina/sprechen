@@ -24,11 +24,18 @@ case class Secured[A] (action: Action[A])(val userRepository: UserRepository) ex
   override def apply(request: Request[A]): Future[Result] = {
     Logger.debug("secured apply called")
 
-    request.session.get("user").map(userRepository.isLoggedIn) match {
+    request.headers.get(Secured.AUTH_TOKEN_HEADER).map(userRepository.isLoggedIn) match {
       case Some(r) if r => action(request)
       case _ => Future(Unauthorized)
     }
   }
 
   override def parser: BodyParser[A] = action.parser
+}
+
+object Secured {
+  val AUTH_TOKEN_HEADER = "X-AUTH-TOKEN"
+  val AUTH_TOKEN = "AUTH_TOKEN"
+
+  def createToken(): String = java.util.UUID.randomUUID.toString
 }

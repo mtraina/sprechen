@@ -5,14 +5,15 @@ import javax.inject.Inject
 
 import models.User
 import persistence.UserRepository
+import play.api.libs.json.Json
 import play.api.mvc.{Action, Controller, RequestHeader}
 
 class AuthController @Inject()(val userRepository: UserRepository) extends Controller {
 
   def authenticate = Action { request =>
     credentials(request).map(u => userRepository.login(u.username, u.password) match {
-      case true => Ok("logged").withSession("user" -> u.username)
-      case false => Unauthorized
+      case Some(token) => Ok(Json.obj("token" -> token))
+      case None => Unauthorized
     }).getOrElse(Unauthorized)
   }
 
