@@ -21820,14 +21820,13 @@
 	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Routes).call(this, props));
 
 	    _this.requireAuth = _this.requireAuth.bind(_this);
-	    _this.state = { "body": ["my", "test"] };
 	    return _this;
 	  }
 
 	  _createClass(Routes, [{
 	    key: 'requireAuth',
 	    value: function requireAuth(nextState, replace) {
-	      var auth = _reactCookie2.default.load("auth");
+	      var auth = _reactCookie2.default.load("AUTH_TOKEN");
 	      if (!auth) {
 	        replace({
 	          pathname: '/login',
@@ -28085,6 +28084,10 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _reactCookie = __webpack_require__(236);
+
+	var _reactCookie2 = _interopRequireDefault(_reactCookie);
+
 	var _List = __webpack_require__(244);
 
 	var _List2 = _interopRequireDefault(_List);
@@ -28130,7 +28133,10 @@
 
 	      fetch("/recognize", {
 	        method: "POST",
-	        body: data
+	        body: data,
+	        headers: {
+	          "X-AUTH-TOKEN": _reactCookie2.default.load("AUTH_TOKEN")
+	        }
 	      }).then(function (r) {
 	        return r.json();
 	      }).then(function (json) {
@@ -28850,13 +28856,11 @@
 	          "Authorization": "Basic " + auth
 	        }
 	      }).then(function (r) {
-	        console.log(r);
-	        if (r.ok) {
-	          _reactCookie2.default.save("auth", auth, { path: "/" });
-	          _reactRouter.hashHistory.push("/");
-	        } else {
-	          console.log("Request failed", r.status);
-	        }
+	        return r.json();
+	      }).then(function (json) {
+	        console.log(json);
+	        _reactCookie2.default.save("AUTH_TOKEN", json.token, { path: "/" });
+	        _reactRouter.hashHistory.push("/");
 	      }).catch(function (error) {
 	        return console.log("Request failed", error);
 	      });
