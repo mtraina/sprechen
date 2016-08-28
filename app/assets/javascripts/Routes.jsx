@@ -9,11 +9,10 @@ export default class Routes extends React.Component {
   constructor(props) {
     super(props);
     this.requireAuth = this.requireAuth.bind(this);
-    this.state = {"body": ["my", "test"]};
   }
 
   requireAuth(nextState, replace) {
-      const auth = cookie.load("auth");
+      const auth = cookie.load("AUTH_TOKEN");
       if (!auth) {
         replace({
           pathname: '/login',

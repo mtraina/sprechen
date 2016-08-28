@@ -1,5 +1,6 @@
 import React from "react";
 //import { hashHistory } from 'react-router';
+import cookie from 'react-cookie';
 import List from "./List.jsx";
 import RecordUploader from "../record/RecordUploader.jsx";
 import VoiceRecorder from "../record/VoiceRecorder.jsx";
@@ -17,7 +18,10 @@ export default class CommentBox extends React.Component {
 
     fetch("/recognize", {
         method: "POST",
-        body: data
+        body: data,
+        headers: {
+          "X-AUTH-TOKEN": cookie.load("AUTH_TOKEN")
+        }
       })
       .then(r => r.json())
       .then(json => {

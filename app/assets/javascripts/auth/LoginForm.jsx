@@ -20,15 +20,11 @@ export default class List extends React.Component {
           "Authorization": "Basic " + auth
         }
       })
-      .then(r => {
-        console.log(r)
-        if(r.ok){
-          cookie.save("auth", auth, { path: "/" });
-          hashHistory.push("/");
-        }
-        else {
-          console.log("Request failed", r.status);
-        }
+      .then(r => r.json())
+      .then(json => {
+        console.log(json);
+        cookie.save("AUTH_TOKEN", json.token, { path: "/" });
+        hashHistory.push("/");
       }).catch(error => console.log("Request failed", error))
   }
 
