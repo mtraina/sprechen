@@ -28,6 +28,8 @@ class WordServiceImpl @Inject()(val client: SpeechClient,
     val response = client.post(speech)
     response.map { r =>
       Logger.debug(s"got the recognition:{${r.json}")
+      val status = (r.json \ "header" \ "status").as[String]
+      if(status == "error") throw new RuntimeException("the recognition was in error")
       val text = (r.json \ "header" \ "lexical").as[String]
       Logger.debug(s"got the lexical: $text")
 
