@@ -21841,6 +21841,8 @@
 	        _reactRouter.Router,
 	        { history: _reactRouter.hashHistory },
 	        _react2.default.createElement(_reactRouter.Route, { path: '/', component: _Main2.default, onEnter: this.requireAuth, data: this.state }),
+	        _react2.default.createElement(_reactRouter.Route, { path: '/record', component: _Main2.default, onEnter: this.requireAuth, data: this.state }),
+	        _react2.default.createElement(_reactRouter.Route, { path: '/dictionary', component: _Main2.default, onEnter: this.requireAuth, data: this.state }),
 	        _react2.default.createElement(_reactRouter.Route, { path: '/login', component: _LoginForm2.default })
 	      );
 	    }
@@ -27893,9 +27895,10 @@
 	  _createClass(NavLink, [{
 	    key: "render",
 	    value: function render() {
+	      var link = "#/" + this.props.link;
 	      return _react2.default.createElement(
 	        "a",
-	        { href: "javascript:void(0)" },
+	        { href: link },
 	        this.props.children
 	      );
 	    }
@@ -27927,7 +27930,7 @@
 	            null,
 	            _react2.default.createElement(
 	              NavLink,
-	              null,
+	              { link: "home" },
 	              "Home"
 	            )
 	          ),
@@ -27936,7 +27939,7 @@
 	            null,
 	            _react2.default.createElement(
 	              NavLink,
-	              null,
+	              { link: "record" },
 	              "Record"
 	            )
 	          ),
@@ -27945,7 +27948,7 @@
 	            null,
 	            _react2.default.createElement(
 	              NavLink,
-	              null,
+	              { link: "dictionary" },
 	              "Dictionary"
 	            )
 	          )
