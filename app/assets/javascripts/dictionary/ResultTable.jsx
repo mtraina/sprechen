@@ -1,8 +1,9 @@
 import React from 'react';
+import Layout from "../layout/Layout.jsx";
 
 export default class ResultTable extends React.Component {
   render() {
-      return <div class="container">
+      return <Layout><div class="container">
   <h2>Basic Table</h2>
   <table className="table">
     <thead>
@@ -30,6 +31,6 @@ export default class ResultTable extends React.Component {
       </tr>
     </tbody>
   </table>
-</div>;
+</div></Layout>;
   }
 }

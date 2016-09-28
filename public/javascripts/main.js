@@ -28823,6 +28823,10 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _Layout = __webpack_require__(239);
+
+	var _Layout2 = _interopRequireDefault(_Layout);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -28844,97 +28848,101 @@
 	    key: "render",
 	    value: function render() {
 	      return _react2.default.createElement(
-	        "div",
-	        { "class": "container" },
+	        _Layout2.default,
+	        null,
 	        _react2.default.createElement(
-	          "h2",
-	          null,
-	          "Basic Table"
-	        ),
-	        _react2.default.createElement(
-	          "table",
-	          { className: "table" },
+	          "div",
+	          { "class": "container" },
 	          _react2.default.createElement(
-	            "thead",
+	            "h2",
 	            null,
-	            _react2.default.createElement(
-	              "tr",
-	              null,
-	              _react2.default.createElement(
-	                "th",
-	                null,
-	                "Firstname"
-	              ),
-	              _react2.default.createElement(
-	                "th",
-	                null,
-	                "Lastname"
-	              ),
-	              _react2.default.createElement(
-	                "th",
-	                null,
-	                "Email"
-	              )
-	            )
+	            "Basic Table"
 	          ),
 	          _react2.default.createElement(
-	            "tbody",
-	            null,
+	            "table",
+	            { className: "table" },
 	            _react2.default.createElement(
-	              "tr",
+	              "thead",
 	              null,
 	              _react2.default.createElement(
-	                "td",
+	                "tr",
 	                null,
-	                "John"
-	              ),
-	              _react2.default.createElement(
-	                "td",
-	                null,
-	                "Doe"
-	              ),
-	              _react2.default.createElement(
-	                "td",
-	                null,
-	                "john@example.com"
+	                _react2.default.createElement(
+	                  "th",
+	                  null,
+	                  "Firstname"
+	                ),
+	                _react2.default.createElement(
+	                  "th",
+	                  null,
+	                  "Lastname"
+	                ),
+	                _react2.default.createElement(
+	                  "th",
+	                  null,
+	                  "Email"
+	                )
 	              )
 	            ),
 	            _react2.default.createElement(
-	              "tr",
+	              "tbody",
 	              null,
 	              _react2.default.createElement(
-	                "td",
+	                "tr",
 	                null,
-	                "Mary"
+	                _react2.default.createElement(
+	                  "td",
+	                  null,
+	                  "John"
+	                ),
+	                _react2.default.createElement(
+	                  "td",
+	                  null,
+	                  "Doe"
+	                ),
+	                _react2.default.createElement(
+	                  "td",
+	                  null,
+	                  "john@example.com"
+	                )
 	              ),
 	              _react2.default.createElement(
-	                "td",
+	                "tr",
 	                null,
-	                "Moe"
+	                _react2.default.createElement(
+	                  "td",
+	                  null,
+	                  "Mary"
+	                ),
+	                _react2.default.createElement(
+	                  "td",
+	                  null,
+	                  "Moe"
+	                ),
+	                _react2.default.createElement(
+	                  "td",
+	                  null,
+	                  "mary@example.com"
+	                )
 	              ),
 	              _react2.default.createElement(
-	                "td",
+	                "tr",
 	                null,
-	                "mary@example.com"
-	              )
-	            ),
-	            _react2.default.createElement(
-	              "tr",
-	              null,
-	              _react2.default.createElement(
-	                "td",
-	                null,
-	                "July"
-	              ),
-	              _react2.default.createElement(
-	                "td",
-	                null,
-	                "Dooley"
-	              ),
-	              _react2.default.createElement(
-	                "td",
-	                null,
-	                "july@example.com"
+	                _react2.default.createElement(
+	                  "td",
+	                  null,
+	                  "July"
+	                ),
+	                _react2.default.createElement(
+	                  "td",
+	                  null,
+	                  "Dooley"
+	                ),
+	                _react2.default.createElement(
+	                  "td",
+	                  null,
+	                  "july@example.com"
+	                )
 	              )
 	            )
 	          )
