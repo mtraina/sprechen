@@ -3,6 +3,7 @@ import { Router, Route, hashHistory } from 'react-router';
 import cookie from 'react-cookie';
 
 import Main from "./layout/Main.jsx";
+import ResultTable from "./dictionary/ResultTable.jsx";
 import LoginForm from './auth/LoginForm.jsx';
 
 export default class Routes extends React.Component {
@@ -24,6 +25,8 @@ export default class Routes extends React.Component {
   render(){
     return <Router history={hashHistory}>
       <Route path="/" component={Main} onEnter={this.requireAuth} data={this.state}/>
+      <Route path="/record" component={Main} onEnter={this.requireAuth} data={this.state}/>
+      <Route path="/dictionary" component={ResultTable} onEnter={this.requireAuth} data={this.state}/>
       <Route path="/login" component={LoginForm} />
     </Router>;
   }

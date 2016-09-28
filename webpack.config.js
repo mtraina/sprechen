@@ -20,15 +20,16 @@ const config = {
         }
       },
       {
-        test: /\.scss$/,
-        loader: ExtractTextPlugin.extract('css!sass')
-      }
+         test: /\.(css|scss)$/,
+         loader: ExtractTextPlugin.extract('css!sass')
+      },
+      { test: /\.(png|woff|woff2|eot|ttf|svg)$/, loader: 'url-loader?limit=100000' }
     ]
   },
 
   plugins: [
       new ExtractTextPlugin('stylesheets/[name].css', {
-          allChunks: true
+        allChunks: true
       })
   ],
 

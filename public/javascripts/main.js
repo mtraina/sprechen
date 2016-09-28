@@ -62,7 +62,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	__webpack_require__(252);
+	__webpack_require__(253);
 
 	(0, _reactDom.render)(_react2.default.createElement(_Routes2.default, null), document.getElementById('content'));
 
@@ -20343,7 +20343,7 @@
 /* 168 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_RESULT__;var require;/* WEBPACK VAR INJECTION */(function(process, global, module) {/*!
+	var require;var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(process, global, module) {/*!
 	 * @overview es6-promise - a tiny implementation of Promises/A+.
 	 * @copyright Copyright (c) 2014 Yehuda Katz, Tom Dale, Stefan Penner and contributors (Conversion to ES6 API by Jake Archibald)
 	 * @license   Licensed under MIT license
@@ -21799,7 +21799,11 @@
 
 	var _Main2 = _interopRequireDefault(_Main);
 
-	var _LoginForm = __webpack_require__(251);
+	var _ResultTable = __webpack_require__(251);
+
+	var _ResultTable2 = _interopRequireDefault(_ResultTable);
+
+	var _LoginForm = __webpack_require__(252);
 
 	var _LoginForm2 = _interopRequireDefault(_LoginForm);
 
@@ -21842,7 +21846,7 @@
 	        { history: _reactRouter.hashHistory },
 	        _react2.default.createElement(_reactRouter.Route, { path: '/', component: _Main2.default, onEnter: this.requireAuth, data: this.state }),
 	        _react2.default.createElement(_reactRouter.Route, { path: '/record', component: _Main2.default, onEnter: this.requireAuth, data: this.state }),
-	        _react2.default.createElement(_reactRouter.Route, { path: '/dictionary', component: _Main2.default, onEnter: this.requireAuth, data: this.state }),
+	        _react2.default.createElement(_reactRouter.Route, { path: '/dictionary', component: _ResultTable2.default, onEnter: this.requireAuth, data: this.state }),
 	        _react2.default.createElement(_reactRouter.Route, { path: '/login', component: _LoginForm2.default })
 	      );
 	    }
@@ -28807,6 +28811,147 @@
 /* 251 */
 /***/ function(module, exports, __webpack_require__) {
 
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var ResultTable = function (_React$Component) {
+	  _inherits(ResultTable, _React$Component);
+
+	  function ResultTable() {
+	    _classCallCheck(this, ResultTable);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(ResultTable).apply(this, arguments));
+	  }
+
+	  _createClass(ResultTable, [{
+	    key: "render",
+	    value: function render() {
+	      return _react2.default.createElement(
+	        "div",
+	        { "class": "container" },
+	        _react2.default.createElement(
+	          "h2",
+	          null,
+	          "Basic Table"
+	        ),
+	        _react2.default.createElement(
+	          "table",
+	          { className: "table" },
+	          _react2.default.createElement(
+	            "thead",
+	            null,
+	            _react2.default.createElement(
+	              "tr",
+	              null,
+	              _react2.default.createElement(
+	                "th",
+	                null,
+	                "Firstname"
+	              ),
+	              _react2.default.createElement(
+	                "th",
+	                null,
+	                "Lastname"
+	              ),
+	              _react2.default.createElement(
+	                "th",
+	                null,
+	                "Email"
+	              )
+	            )
+	          ),
+	          _react2.default.createElement(
+	            "tbody",
+	            null,
+	            _react2.default.createElement(
+	              "tr",
+	              null,
+	              _react2.default.createElement(
+	                "td",
+	                null,
+	                "John"
+	              ),
+	              _react2.default.createElement(
+	                "td",
+	                null,
+	                "Doe"
+	              ),
+	              _react2.default.createElement(
+	                "td",
+	                null,
+	                "john@example.com"
+	              )
+	            ),
+	            _react2.default.createElement(
+	              "tr",
+	              null,
+	              _react2.default.createElement(
+	                "td",
+	                null,
+	                "Mary"
+	              ),
+	              _react2.default.createElement(
+	                "td",
+	                null,
+	                "Moe"
+	              ),
+	              _react2.default.createElement(
+	                "td",
+	                null,
+	                "mary@example.com"
+	              )
+	            ),
+	            _react2.default.createElement(
+	              "tr",
+	              null,
+	              _react2.default.createElement(
+	                "td",
+	                null,
+	                "July"
+	              ),
+	              _react2.default.createElement(
+	                "td",
+	                null,
+	                "Dooley"
+	              ),
+	              _react2.default.createElement(
+	                "td",
+	                null,
+	                "july@example.com"
+	              )
+	            )
+	          )
+	        )
+	      );
+	    }
+	  }]);
+
+	  return ResultTable;
+	}(_react2.default.Component);
+
+	exports.default = ResultTable;
+
+/***/ },
+/* 252 */
+/***/ function(module, exports, __webpack_require__) {
+
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
@@ -28932,7 +29077,7 @@
 	exports.default = List;
 
 /***/ },
-/* 252 */
+/* 253 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
