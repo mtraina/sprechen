@@ -20343,7 +20343,7 @@
 /* 168 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_RESULT__;var require;/* WEBPACK VAR INJECTION */(function(process, global, module) {/*!
+	var require;var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(process, global, module) {/*!
 	 * @overview es6-promise - a tiny implementation of Promises/A+.
 	 * @copyright Copyright (c) 2014 Yehuda Katz, Tom Dale, Stefan Penner and contributors (Conversion to ES6 API by Jake Archibald)
 	 * @license   Licensed under MIT license
@@ -28035,9 +28035,9 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _CommentBox = __webpack_require__(243);
+	var _RecordBox = __webpack_require__(243);
 
-	var _CommentBox2 = _interopRequireDefault(_CommentBox);
+	var _RecordBox2 = _interopRequireDefault(_RecordBox);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -28065,7 +28065,7 @@
 	      return _react2.default.createElement(
 	        "article",
 	        null,
-	        _react2.default.createElement(_CommentBox2.default, null)
+	        _react2.default.createElement(_RecordBox2.default, null)
 	      );
 	    }
 	  }]);
@@ -28854,9 +28854,11 @@
 	          "div",
 	          { "class": "container" },
 	          _react2.default.createElement(
-	            "h2",
+	            "div",
 	            null,
-	            "Basic Table"
+	            "Search",
+	            _react2.default.createElement("input", { type: "text", name: "search" }),
+	            _react2.default.createElement("br", null)
 	          ),
 	          _react2.default.createElement(
 	            "table",

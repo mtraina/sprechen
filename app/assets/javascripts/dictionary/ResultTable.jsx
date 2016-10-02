@@ -4,7 +4,8 @@ import Layout from "../layout/Layout.jsx";
 export default class ResultTable extends React.Component {
   render() {
       return <Layout><div class="container">
-  <h2>Basic Table</h2>
+  <div>Search<input type="text" name="search"/><br/></div>
+  
   <table className="table">
     <thead>
       <tr>

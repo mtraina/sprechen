@@ -1,5 +1,5 @@
 import React from "react";
-import CommentBox from "../dictionary/CommentBox.jsx";
+import RecordBox from "../record/RecordBox.jsx";
 
 export default class Article extends React.Component {
   constructor(props){
@@ -8,8 +8,6 @@ export default class Article extends React.Component {
   }
 
   render() {
-    return <article>
-      <CommentBox/>
-    </article>;
+    return <article><RecordBox/></article>;
   }
 }
