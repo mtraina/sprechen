@@ -11,7 +11,7 @@ export default class Nav extends React.Component {
   render() {
     return <nav>
         <ul>
-          <li><NavLink link={"home"}>Home</NavLink></li>
+          <li><NavLink link={""}>Home</NavLink></li>
           <li><NavLink link={"record"}>Record</NavLink></li>
           <li><NavLink link={"dictionary"}>Dictionary</NavLink></li>
         </ul>
