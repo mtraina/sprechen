@@ -28,8 +28,7 @@ class UserRepositorySpec extends PlaySpecification with EmbeddedMongo {
       val userRepository = app.injector.instanceOf[UserRepository]
 
       // then
-      val result = userRepository.login("user", "pass")
-      result must beTrue
+      userRepository.login("user", "pass").isDefined must beTrue
     }
   }
 }

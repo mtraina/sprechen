@@ -29,11 +29,4 @@ class WordServiceImplSpec extends FlatSpec with Matchers with MockitoSugar {
     val resp = wordService.saveWord(f)
     resp.value.get.get.json shouldBe json
   }
-
-  it should "adapt the retrieved text" in {
-    wordService.adaptText("abc") shouldBe "abc"
-    wordService.adaptText("abc ") shouldBe "abc"
-    wordService.adaptText("ab cd ") shouldBe "ab cd"
-  }
-
 }
