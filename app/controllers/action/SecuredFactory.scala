@@ -10,7 +10,7 @@ import play.api.mvc.{Action, BodyParser, Request, Result}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-trait SecuredFactory {
+sealed trait SecuredFactory {
   def secured[A](action: Action[A]): Secured[A]
 }
 
