@@ -5,7 +5,7 @@
 # An example controller showing a sample home page
 GET     /                           controllers.HomeController.index
 
-POST     /auth                       controllers.AuthController.authenticate
+POST    /auth                       controllers.AuthController.authenticate
 
 POST    /recognize                  controllers.SpeechController.recognize
 
