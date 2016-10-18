@@ -6,9 +6,9 @@ import cookie from 'react-cookie';
 export default class Dictionary extends React.Component {
   constructor(props){
     super(props);
-    this.state = {dictionary: [{"text":"weather","translations":["Wetter", "Another","Test"]}]};
-    //this.sendSpeech = this.sendSpeech.bind(this);
-    //this.getDictionary();
+    //this.state = {dictionary: [{"text":"weather","translations":["Wetter", "Another","Test"]}]};
+    this.state = {dictionary: []};
+    this.getDictionary();
   }
 
   getDictionary(){
@@ -21,7 +21,7 @@ export default class Dictionary extends React.Component {
       .then(r => r.json())
       .then(json => {
         console.log("json: ", json);
-        //this.setState({dictionary: json});
+        this.setState({dictionary: json});
       })
       .catch(error => console.log("Request failed", error))
   }
