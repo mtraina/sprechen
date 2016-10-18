@@ -8,7 +8,7 @@ export default class ResultTable extends React.Component {
   }
 
   render() {
-      return <Table height={40+((this.props.data.length+1) * 30)}
+      return <Table height={32+(this.props.data.length) * 30}
           width={1150}
           rowsCount={this.props.data.length}
           rowHeight={30}

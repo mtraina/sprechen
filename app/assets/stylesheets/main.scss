@@ -1,5 +1,7 @@
 $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
 @import "~bootstrap-sass/assets/stylesheets/_bootstrap";
+@import "~fixed-data-table/dist/fixed-data-table.min.css";
+//@import "~react-virtualized/styles.css";
 
 @import "nav";
 @import "footer";
