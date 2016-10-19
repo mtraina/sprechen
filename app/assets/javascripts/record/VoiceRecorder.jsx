@@ -1,7 +1,7 @@
 import React from "react";
 import Recorder from "recorderjs";
 
-class VoiceRecorder extends React.Component {
+export default class VoiceRecorder extends React.Component {
   constructor(props){
     super(props);
     this.startUserMedia = this.startUserMedia.bind(this);
@@ -10,8 +10,6 @@ class VoiceRecorder extends React.Component {
   }
 
   componentDidMount(){
-    document.querySelector("#stop").disabled = true;
-
     // webkit shim
     navigator.getUserMedia = navigator.getUserMedia ||
                          navigator.webkitGetUserMedia ||
@@ -46,9 +44,6 @@ class VoiceRecorder extends React.Component {
   }
 
   startRecording() {
-    document.querySelector("#start").disabled = true;
-    document.querySelector("#stop").disabled = false;
-
     this.recorder && this.recorder.record();
     console.log('Start recording...');
   }
@@ -56,21 +51,13 @@ class VoiceRecorder extends React.Component {
   stopRecording(){
     console.log('Stop recording...');
     this.recorder && this.recorder.stop();
-
     this.recorder.exportWAV(this.props.handleSpeech);
-
     this.recorder.clear();
-
-    document.querySelector("#stop").disabled = true;
-    document.querySelector("#start").disabled = false;
   }
 
   render(){
     return <div>
-      <button id="start" onClick={this.startRecording}>record</button>
-      <button id="stop" onClick={this.stopRecording}>stop</button>
+      <button onMouseDown={this.startRecording} onMouseUp={this.stopRecording}>record</button>
     </div>;
   }
 }
-
-export default VoiceRecorder;
