@@ -1,7 +1,7 @@
 import React from "react";
 import Recorder from "recorderjs";
 
-class RecordUploader extends React.Component {
+export default class RecordUploader extends React.Component {
   constructor(props) {
     super(props);
     this.previewFile = this.previewFile.bind(this);
@@ -27,5 +27,3 @@ class RecordUploader extends React.Component {
     </div>
   }
 }
-
-export default RecordUploader;

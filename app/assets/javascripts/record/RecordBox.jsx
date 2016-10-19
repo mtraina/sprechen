@@ -1,5 +1,4 @@
 import React from "react";
-//import { hashHistory } from 'react-router';
 import cookie from 'react-cookie';
 import List from "./List.jsx";
 import RecordUploader from "../record/RecordUploader.jsx";
