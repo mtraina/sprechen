@@ -16,7 +16,6 @@ export default class Dictionary extends React.Component {
   }
 
   getDictionary(dictionary){
-    console.log("dictionary: ", dictionary);
     this.setState({dictionary: dictionary});
   }
 
