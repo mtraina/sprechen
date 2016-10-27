@@ -6,35 +6,24 @@ const executeRequest = Symbol();
 class ServiceClient {
 
   get(url, callback){
-    this[executeRequest](url, "GET", callback);
+    this[executeRequest](url, "GET", null, callback);
   }
 
   post(url, data, callback){
-    fetch(url, {
-        method: "POST",
-        body: data,
-        headers: {
-          "X-AUTH-TOKEN": cookie.load("AUTH_TOKEN")
-        }
-      })
-      .then(r => {
-        if(r.status == 401) hashHistory.push('/login');
-        else return r.json();
-      })
-      .then(json => {
-        console.log("json: ", json);
-        callback(json);
-      })
-      .catch(error => console.log("Request failed", error))
+    this[executeRequest](url, "POST", data, callback);
   }
 
-  [executeRequest](url, method, callback){
-    fetch(url, {
-        method: method,
-        headers: {
-          "X-AUTH-TOKEN": cookie.load("AUTH_TOKEN")
-        }
-      })
+  [executeRequest](url, method, data, callback){
+    let params = {
+      method: method,
+      headers: {
+        "X-AUTH-TOKEN": cookie.load("AUTH_TOKEN")
+      }
+    }
+
+    if(data != null) params.body = data;
+
+    fetch(url, params)
       .then(r => {
         if(r.status == 401) hashHistory.push('/login');
         else return r.json();
