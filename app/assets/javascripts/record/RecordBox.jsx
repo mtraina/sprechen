@@ -3,31 +3,24 @@ import cookie from 'react-cookie';
 import List from "./List.jsx";
 import RecordUploader from "../record/RecordUploader.jsx";
 import VoiceRecorder from "../record/VoiceRecorder.jsx";
+import { serviceClient } from "../client/ServiceClient.js"
 
 export default class CommentBox extends React.Component {
   constructor(props) {
     super(props);
     this.state = {guesses: []};
     this.sendSpeech = this.sendSpeech.bind(this);
+    this.getSpeech = this.getSpeech.bind(this);
   }
 
   sendSpeech(blob){
     const data = new FormData();
     data.append("speech", blob);
+    serviceClient.post("/recognize", data, this.getSpeech)
+  }
 
-    fetch("/recognize", {
-        method: "POST",
-        body: data,
-        headers: {
-          "X-AUTH-TOKEN": cookie.load("AUTH_TOKEN")
-        }
-      })
-      .then(r => r.json())
-      .then(json => {
-        console.log("json: ", json);
-        this.setState({guesses: json.guesses});
-      })
-      .catch(error => console.log("Request failed", error))
+  getSpeech(speech){
+    this.setState({guesses: speech});
   }
 
   render(){
